@@ -7,6 +7,8 @@
 Blockreach
 ---
 
+A modern Yellowpages for verified web3 businesses.
+
 Create verifiable business landing pages where potential prospects can reach out to you in exchange for paying a known fee.
 
 ### Inspiration
@@ -17,14 +19,13 @@ With blockreach, your business can create a free (or paid) secured contact page 
 
 Blockreach also enables secure B2B communication where both parties are known to be contacting an authorized source (and not an impersonator) by using a Blockreach issued verifiable credential (VC).
 
+Blockreach pulls information from 
 
-
-
-
-## Inspiration
 
 
 ## What it does
+
+Master smart contract for the Blockreach application creates custom urls.
 
 ### Core functions
 * Create business landing page

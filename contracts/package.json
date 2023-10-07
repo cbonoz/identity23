@@ -1,7 +1,6 @@
 {
-  "name": "hardhat-project",
+  "name": "blockreach-contract",
   "dependencies": {
-    "@ant-design/icons": "^5.2.6",
     "@openzeppelin/contracts": "^4.9.3",
     "@tableland/evm": "^4.3.0",
     "hardhat": "^2.17.2"
