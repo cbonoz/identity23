@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname } from "next/navigation"
-import { useWallet } from "./WalletProviderWrapper"
 import Link from "next/link";
 import { abbreviate, isAdminAddress } from "../util";
 import { ACTIVE_CHAIN, APP_NAME } from "../constants";

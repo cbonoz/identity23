@@ -19,7 +19,6 @@ With blockreach, your business can create a free (or paid) secured contact page 
 
 Blockreach also enables secure B2B communication where both parties are known to be contacting an authorized source (and not an impersonator) by using a Blockreach issued verifiable credential (VC).
 
-Blockreach pulls information from 
 
 
 
@@ -44,9 +43,16 @@ Specify the following environment variables
 
 
 ## Technologies used
-Onyx sdk: Social Identity Integration and Finance and Identity integration
 
-<!-- Saturn: Data validation (using browser client). https://github.com/filecoin-saturn/browser-client -->
+Blockreach pulls information from LENS to create a verified profile page for the business with contact information using Onyx and LENS. Zero fee interactions with the verified business account are facilitated with ZkSync.
+
+* JPM Onyx sdk: Social Identity Integration and Finance and Identity integration. The Onyx SDK is used for two key pieces.
+1. Blockreach app has an admin ssue and verifier account that is stored server side and used to validate new business page creations.
+2. These accounts verify all new page requests and generate unique keys that are saveable by the page owner once successfully verified.
+
+* LENS: Pull business social profile information
+
+* ZkSync: Zero fee outreach
 
  <p>Note this project is a hackathon prototype and would require additional work to be mainnet/production ready.</p>
 

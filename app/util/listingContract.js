@@ -1,11 +1,11 @@
-import { ethers } from "ethers";
-import { DATA_CONTRACT} from "./metadata";
+import { REACH_CONTRACT} from "./metadata";
 import { POLICY_CONTRACT } from "./policy";
 import { ADMIN_ADDRESS } from "../constants";
+import { ContractFactory } from "zksync-web3";
 
 export async function deployPolicy(signer) {
     // Deploy contract with ethers
-    const factory = new ethers.ContractFactory(
+    const factory = new ContractFactory(
         POLICY_CONTRACT.abi,
         POLICY_CONTRACT.bytecode,
         signer
@@ -20,9 +20,9 @@ export async function deployPolicy(signer) {
 
 export async function deployContract(signer, cid, price) {
     // Deploy contract with ethers
-    const factory = new ethers.ContractFactory(
-        DATA_CONTRACT.abi,
-        DATA_CONTRACT.bytecode,
+    const factory = new ContractFactory(
+        REACH_CONTRACT.abi,
+        REACH_CONTRACT.bytecode,
         signer
     );
     const contract = await factory.deploy(cid, price, ADMIN_ADDRESS); // must match contract.
@@ -35,9 +35,9 @@ export async function deployContract(signer, cid, price) {
 
 export async function purchaseContract(signer, contractAddress, price) {
     // Deploy contract with ethers
-    const contract = new ethers.Contract(
+    const contract = new Contract(
         contractAddress,
-        DATA_CONTRACT.abi,
+        REACH_CONTRACT.abi,
         signer
     );
     // log
@@ -49,9 +49,9 @@ export async function purchaseContract(signer, contractAddress, price) {
 }
 
 export const getMetadata = async (signer, address) => {
-    const contract = new ethers.Contract(
+    const contract = new Contract(
         address,
-        DATA_CONTRACT.abi,
+        REACH_CONTRACT.abi,
         signer
     );
     const result = await contract.getMetadata.call();

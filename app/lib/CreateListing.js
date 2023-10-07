@@ -11,7 +11,6 @@ import { FileDrop } from "./FileDrop";
 import { createListing } from "../util/tableland";
 import { ethers } from "ethers";
 import { deployContract } from "../util/listingContract";
-import { useWallet } from "./WalletProviderWrapper";
 
 const { Step } = Steps;
 
@@ -145,7 +144,7 @@ function CreateListing() {
         <Col span={24}>
           <div className="centered standard-margin">
             <Image src="logo.png" alt="Blockreach Logo" width={180} height={37} />
-            <h3>Create new data listing</h3>
+            <h3>Create new business listing</h3>
             <br />
             <br />
           </div>

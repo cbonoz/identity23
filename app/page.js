@@ -40,7 +40,7 @@ const Home = () => {
         </div>
         <div>
           <Button className='standard-btn' size="large" type="primary" onClick={() => router.push('/create')}>
-            Create a data listing
+            Create a business listing
           </Button>&nbsp;
           <Button className='standard-btn' size="large" type="dashed" onClick={() => router.push('/search')}>
             Search listings

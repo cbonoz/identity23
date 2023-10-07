@@ -1,4 +1,4 @@
-export const DATA_CONTRACT= {
+export const REACH_CONTRACT= {
   "_format": "hh-sol-artifact-1",
   "contractName": "ProfileContract",
   "sourceName": "contracts/ProfileContract.sol",

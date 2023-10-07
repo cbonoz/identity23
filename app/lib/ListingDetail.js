@@ -22,7 +22,6 @@ import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 
 import { getMetadata, purchaseContract } from '../util/listingContract';
 import { addPurchase, createOffer, getListing, getOffersForListing } from '../util/tableland';
-import { useWallet } from './WalletProviderWrapper';
 import { ethers } from 'ethers';
 
 import 'chartkick/chart.js'

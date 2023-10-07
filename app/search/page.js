@@ -3,12 +3,8 @@
 import { useContext, useEffect, useState } from 'react'
 import Search from 'antd/es/input/Search'
 import ListingCard from '../lib/ListingCard'
-import { EXAMPLE_ITEM, generateItem } from '../constants'
 import { Divider, Pagination, Spin } from 'antd'
-import { getListings } from '../util/tableland'
 import { formatListing, isEmpty } from '../util'
-
-import Fuse from "fuse.js";
 
 
 export default function Home() {
@@ -18,38 +14,6 @@ export default function Home() {
   const [filteredData, setFilteredData] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
-  useEffect(() => {
-    if (isEmpty(searchValue)) {
-      setFilteredData([])
-      return
-    }
-    const fuse = new Fuse(data, {
-      keys: ['name', 'description']
-    })
-    const res = fuse.search(searchValue)
-    console.log('fuse search', searchValue, res)
-    setFilteredData(res.map(r => r.item))
-  }, [searchValue, data])
-
-  async function get() {
-    setLoading(true)
-    try {
-      const res = await getListings(0, 100)
-      const formatted = res.map(formatListing)
-      console.log('get listings', formatted)
-      setData(formatted)
-    } catch (e) {
-      console.error('error getting listings', e)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    get()
-  }, [page, pageSize])
-
   const filteredItems = isEmpty(searchValue) ? data : filteredData;
 
   return (

@@ -4,7 +4,6 @@ import { Button, Divider, Input } from "antd";
 import { useState } from "react";
 import { APP_NAME, OFFER_TABLE, LISTING_TABLE } from "../constants";
 import { grantAccess, setupTables, verifyListing } from "../util/tableland";
-import { useWallet } from "../lib/WalletProviderWrapper";
 
 export default function Admin() {
 
@@ -13,7 +12,6 @@ export default function Admin() {
     const [verifyResult, setVerifyResult] = useState()
     const [error, setError] = useState()
     const [listingId, setListingId] = useState()
-    const { provider } = useWallet()
 
     async function validateListing() {
         if (!listingId) {
