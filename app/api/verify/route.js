@@ -1,14 +1,11 @@
-export async function GET(request) {
-    const { searchParams } = new URL(request.url);
-    const hasTitle = searchParams.has('title');
-    const title = hasTitle
-        ? searchParams.get('title')?.slice(0, 100)
-        : 'My default title';
+import { NextResponse } from "next/server";
 
-    const verified = true;
+export async function GET(request) {
+    const title = 'My default title';
+    const provisioned = true;
 
     return NextResponse.json(
-        { title, verified },
+        { title, provisioned },
         {
             status: 200,
         },

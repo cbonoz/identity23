@@ -5,7 +5,6 @@ import { Button, Input, Row, Col, Steps, Result, Divider, Checkbox, Card, Image 
 import { listingUrl, ipfsUrl, getExplorerUrl, humanError, isEmpty, } from "../util";
 import { uploadFiles } from "../util/stor";
 import { ACTIVE_CHAIN, APP_NAME } from "../constants";
-import { generateItem } from "../constants";
 import { ethers } from "ethers";
 import { deployContract } from "../util/profileContract";
 
@@ -18,7 +17,7 @@ function CreateListing() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState();
 
-  const setDemo = () => setData({ ...generateItem(1) })
+  const setDemo = () => setData({ ...data })
 
   const updateData = (key, value) => {
     setData({ ...data, [key]: value });
