@@ -17,7 +17,6 @@ import {
     Statistic,
 } from 'antd';
 import Image from 'next/image'
-import { abbreviate, convertCamelToHuman, formatCurrency, formatListing, getExplorerUrl, humanError, ipfsUrl, isEmpty } from '../util';
 import { ACTIVE_CHAIN, APP_NAME, EXAMPLE_OFFERS, STAT_KEYS } from '../constants';
 import { getProfileByHandle, getProfileById } from '../util/lens'
 
@@ -25,6 +24,7 @@ const ListingDetail = ({ listingId, provider }) => {
     const [loading, setLoading] = useState(true)
     const [showOfferModal, setShowOfferModal] = useState(false)
     const [claimResult, setClaimResult] = useState()
+    const [presentation, setPresentation] = useState()
     const [result, setResult] = useState()
     const [error, setError] = useState()
     const [profile, setProfile] = useState()
@@ -55,6 +55,13 @@ const ListingDetail = ({ listingId, provider }) => {
 
     async function claimAccount() {
 
+        try {
+            const res = await postVerifyVP(presentation)
+            console.log('verified', res)
+        } catch (e) {
+            console.error('error verifying', e)
+            setError(e.message)
+        }
     }
 
     async function sendInquiry() {

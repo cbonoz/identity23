@@ -5,40 +5,34 @@ import { useState } from "react";
 import { APP_NAME, OFFER_TABLE, LISTING_TABLE, ACTIVE_CHAIN } from "../constants";
 import { deployContract } from "../util/profileContract";
 import { useEthersSigner } from "../hooks/useEthersSigner";
+import { postGenerateVC } from "../util/api";
 
 export default function Admin() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState()
+    const [handle, setHandle] = useState()
     const [result, setResult] = useState({})
 
     const updateResult = (key, value) => {
         setResult({ ...result, [key]: value })
     }
 
-    async function validateListing() {
-        if (!listingId) {
-            return
-        }
-        setError()
-        setLoading(true)
+    async function generate() {
         try {
-            const res = {}
-            setVerifyResult(res)
+            const res = await postGenerateVC(handle)
+            console.log('generated', res)
+            updateResult('vc', res)
         } catch (e) {
-            console.error('verifying listing', e)
+            console.error('generating vc', e)
             // setError(e.message)
         }
-        setLoading(false)
-    }
-
-    async function generate() {
         // alert('TODO: generate verified credential for handle')
 
     }
 
-    const signer = useEthersSigner({chainId: ACTIVE_CHAIN.id})
+    const signer = useEthersSigner({ chainId: ACTIVE_CHAIN.id })
 
-    async function deploy () {
+    async function deploy() {
         setError()
         setLoading(true)
         try {
@@ -64,21 +58,30 @@ export default function Admin() {
                 <Divider />
                 <p>Result</p>
                 <pre>{JSON.stringify(result.contract, null, 2)}</pre>
-                </div>}
+            </div>}
         </Card>
 
-        <br/>
+        <br />
 
 
         <Card title='Generate Verified credential for handle'>
-            <Button type='primary' disabled={loading} loading={loading} onClick={generate}>Generate</Button>
+            <Input
+                value={handle}
+                size='large'
+                className='standard-padding'
+                onChange={(e) => setHandle(e.target.value)}
+                placeholder="Enter handle"
+                style={{ width: 200 }} />
+
+            <br />
+            <Button type='primary' disabled={loading || !handle} loading={loading} onClick={generate}>Generate</Button>
 
 
             {result.vc && <div>
                 <Divider />
                 <p>Result</p>
                 <pre>{JSON.stringify(result.vc, null, 2)}</pre>
-                </div>}
+            </div>}
         </Card>
 
 

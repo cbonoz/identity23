@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export async function GET(request) {
+export async function POST(request) {
     const title = 'My default title';
     const provisioned = true;
 
