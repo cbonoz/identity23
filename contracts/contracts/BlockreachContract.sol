@@ -1,60 +1,74 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.13;
+
 
 contract BlockreachContract {
-    struct Business {
-        string name;
-        string description;
+    // owner
+    address public owner;
+
+    struct Profile {
+        string handle;
+        // string name;
+        // string description;
         address owner;
         bool isVerified;
     }
 
     struct Inquiry {
         address sender;
+        string handle;
         string message;
     }
 
-    Business[] public businesses;
     Inquiry[] public inquiries;
+    mapping(string => Profile) public profiles;
 
-    mapping(address => bool) public verifiedBusinesses;
+    event InquirySent(address sender, string handle, string message, uint256 value);
 
-    event BusinessCreated(string name, string description, address owner);
-    event BusinessVerified(address indexed owner, bool isVerified);
-    event InquirySubmitted(address indexed sender, string message);
-
-    function createBusiness(string memory _name, string memory _description) external {
-        require(!verifiedBusinesses[msg.sender], "You already have a verified business profile.");
-        businesses.push(Business({
-            name: _name,
-            description: _description,
-            owner: msg.sender,
-            isVerified: false
-        }));
-        verifiedBusinesses[msg.sender] = false;
-        emit BusinessCreated(_name, _description, msg.sender);
+    // constructor
+    constructor() {
+        owner = msg.sender;
     }
 
-    function verifyBusiness() external {
-        require(!verifiedBusinesses[msg.sender], "Your business is already verified.");
-        verifiedBusinesses[msg.sender] = true;
-        emit BusinessVerified(msg.sender, true);
+    // claim profile (must be unverified)
+    function claimProfile(string memory _handle) public {
+        Profile memory profile = profiles[_handle];
+        require(!profile.isVerified, "Profile must be unverified");
+        profile.handle = _handle;
+        profile.owner = msg.sender;
+        profile.isVerified = false;
+        profiles[_handle] = profile;
     }
 
-    function submitInquiry(string memory _message) external {
-        require(verifiedBusinesses[msg.sender], "Your business is not verified.");
-        inquiries.push(Inquiry({
-            sender: msg.sender,
-            message: _message
-        }));
-        emit InquirySubmitted(msg.sender, _message);
+
+    // get profile
+    function getProfile(string memory _handle) public view returns (Profile memory) {
+        return profiles[_handle];
     }
 
-    function getBusinessCount() external view returns (uint256) {
-        return businesses.length;
+    // send inquiry (profile must be verified). Add optional payment
+    function sendInquiry(string memory _handle, string memory _message) public payable {
+        Profile memory profile = profiles[_handle];
+        require(profile.isVerified, "Profile must be verified");
+
+        // If value on payment, transfer to profile owner.
+        if (msg.value > 0) {
+            payable(profile.owner).transfer(msg.value);
+        }
+
+        Inquiry memory inquiry = Inquiry(msg.sender, _handle, _message);
+        inquiries.push(inquiry);
+        emit InquirySent(msg.sender, _handle, _message, msg.value);
+    }
+   
+
+    // verify profile (owner only)
+    function verifyProfile(string memory _handle) public {
+        require(msg.sender == owner, "Only owner can verify profile");
+        Profile memory profile = profiles[_handle];
+        profile.isVerified = true;
+        profiles[_handle] = profile;
     }
 
-    function getInquiryCount() external view returns (uint256) {
-        return inquiries.length;
-    }
+
 }

@@ -69,6 +69,15 @@ a {
 .white {
   background: white;
 }
+
+.selectable {
+  cursor: pointer;
+}
+
+.selectable:hover {
+  background: #eee;
+}
+
 .boxed {
   padding: 20px;
   border-radius: 5px;
@@ -144,8 +153,8 @@ a {
 .ant-input,
 input,
 textarea {
-  margin-bottom: 10px;
-  margin-top: 10px;
+  /* margin-bottom: 10px;
+  margin-top: 10px; */
 }
 
 .ant-layout-header {
@@ -248,8 +257,8 @@ textarea {
 input,
 textarea {
   max-width: 600px;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  /* margin-bottom: 10px; */
+  /* margin-top: 10px; */
 }
 
 .header-logo {

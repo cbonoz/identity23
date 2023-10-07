@@ -7,32 +7,36 @@ import { ACTIVE_CHAIN, APP_NAME } from "../constants";
 import StyledComponentsRegistry from "./AntdRegistry";
 import { Button, Layout, Menu } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
+import ConnectButton from "./ConnectButton";
 import Image from "next/image";
 
 function UiLayoutWrapper({ children }) {
 
     const pathname = usePathname()
-    const { connect, wallet, logout } = useWallet()
-
-    const menuItems = [
-        {
+    const isListingPage = pathname.startsWith('/listing')
+    const menuItems = []
+    if (!isListingPage) {
+        menuItems.push({
             key: '/search',
-            label: <Link href="/search">Search listings</Link>,
+            label: <Link href="/search">Search</Link>,
             href: '/search',
-        },
-        {
-            key: '/create',
-            label: <Link href="/create">Create</Link>,
-            href: '/create',
-        },
-        {
-            key: '/about',
-            label: <Link href="/about">About</Link>,
-            href: '/about',
-        },
-    ]
+        })
+        menuItems.push(
+            {
+                key: '/create',
+                label: <Link href="/create">Create</Link>,
+                href: '/create',
+            })
+    }
 
-    const isAdmin = isAdminAddress(wallet?.address) 
+    menuItems.push({
+        key: '/about',
+        label: <Link href="/about">About</Link>,
+        href: '/about',
+    })
+
+
+    const isAdmin = true;
 
     if (isAdmin) {
         menuItems.push({
@@ -54,21 +58,20 @@ function UiLayoutWrapper({ children }) {
                             window.location.href = '/'
                         }}
                         width={160}
-                        />
+                    />
 
                     <Menu style={{ minWidth: '800px' }}
                         mode="horizontal" defaultSelectedKeys={pathname} items={menuItems} />
 
                     <span style={{ float: 'right', right: 20, position: 'absolute' }}>
-                        {!wallet?.address && <Button href="#" type="primary" onClick={connect}>Connect</Button>}
-                        {wallet?.address && <span>{abbreviate(wallet?.address)}&nbsp;(<a href="#" onClick={logout}>logout</a>)</span>}
+                        <ConnectButton />
                     </span>
 
 
                 </Header>
-                    <span className='float-right bold active-network' >
-                Active network: {ACTIVE_CHAIN.name}&nbsp;
-                    </span>
+                <span className='float-right bold active-network' >
+                    Active network: {ACTIVE_CHAIN.name}&nbsp;
+                </span>
                 <Content className='container'>
                     {/* Pass children to the content area */}
                     <div className='container'>

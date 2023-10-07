@@ -1,21 +1,26 @@
 'use client'
 
 import React, { useState, } from 'react'
-import { Button, Spin, Row, Col } from 'antd';
+import { Button, Spin, Row, Col, Input, Divider } from 'antd';
 import { APP_DESC, APP_NAME } from './constants';
 import { CheckCircleTwoTone } from '@ant-design/icons';
 import Image from 'next/image';
+import heroImage from './assets/city.gif'
 import { useRouter } from 'next/navigation';
 
 // TODO: change
 const CHECKLIST_ITEMS = [
+  "Set up a verified business landing page",
+  `Add your business to the ${APP_NAME} directory`,
+  "No vendor accounts or agreements required",
 ];
 
-const HERO_IMAGE = 'https://assets-v2.lottiefiles.com/a/b2e71c48-1173-11ee-af24-e38df89b1a8a/esieSHm0ao.gif'
+// const HERO_IMAGE = 'https://assets-v2.lottiefiles.com/a/b2e71c48-1173-11ee-af24-e38df89b1a8a/esieSHm0ao.gif'
 
 
 const Home = () => {
   const [loading, setLoading] = useState(false)
+  const [handle, setHandle] = useState()
   // next router
   const router = useRouter()
   const [error, setError] = useState()
@@ -39,16 +44,31 @@ const Home = () => {
         <div>
         </div>
         <div>
-          <Button className='standard-btn' size="large" type="primary" onClick={() => router.push('/create')}>
-            Create a business listing
-          </Button>&nbsp;
+<br/>
+          <Input
+            value={handle}
+            size='large'
+            className='standard-padding'
+            onChange={(e) => setHandle(e.target.value)}
+            placeholder="Enter handle"
+            style={{ width: 200 }}
+          /><br/>
+
+          <Button disabled={!handle} className='standard-btn' type="primary" onClick={() => router.push('/listing/' + handle)}>
+            Go to handle
+          </Button>
+          <br/>
+          <br/>
+          <p>--- or ---</p>
+
           <Button className='standard-btn' size="large" type="dashed" onClick={() => router.push('/search')}>
-            Search listings
+            Search profiles
           </Button>
         </div>
       </Col>
       <Col span={12}>
-        <Image width={400} height={400} className='hero-image' src={HERO_IMAGE} alt={APP_NAME}/>
+        <br/>
+        <Image width={400} height={350} className='hero-image' src={heroImage} alt={APP_NAME}/>
       </Col>
     </Row>
 

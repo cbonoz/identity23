@@ -1,17 +1,19 @@
 'use client';
 
-import { Button, Divider, Input } from "antd";
+import { Button, Card, Divider, Input } from "antd";
 import { useState } from "react";
-import { APP_NAME, OFFER_TABLE, LISTING_TABLE } from "../constants";
-import { grantAccess, setupTables, verifyListing } from "../util/tableland";
+import { APP_NAME, OFFER_TABLE, LISTING_TABLE, ACTIVE_CHAIN } from "../constants";
+import { deployContract } from "../util/profileContract";
+import { useEthersSigner } from "../hooks/useEthersSigner";
 
 export default function Admin() {
-
     const [loading, setLoading] = useState(false)
-    const [tableResult, setTableResult] = useState()
-    const [verifyResult, setVerifyResult] = useState()
     const [error, setError] = useState()
-    const [listingId, setListingId] = useState()
+    const [result, setResult] = useState({})
+
+    const updateResult = (key, value) => {
+        setResult({ ...result, [key]: value })
+    }
 
     async function validateListing() {
         if (!listingId) {
@@ -20,7 +22,7 @@ export default function Admin() {
         setError()
         setLoading(true)
         try {
-            const res = await verifyListing(provider.signer, listingId)
+            const res = {}
             setVerifyResult(res)
         } catch (e) {
             console.error('verifying listing', e)
@@ -29,70 +31,56 @@ export default function Admin() {
         setLoading(false)
     }
 
-    const hasTables = OFFER_TABLE && LISTING_TABLE;
+    async function generate() {
+        // alert('TODO: generate verified credential for handle')
+
+    }
+
+    const signer = useEthersSigner({chainId: ACTIVE_CHAIN.id})
+
+    async function deploy () {
+        setError()
+        setLoading(true)
+        try {
+            const res = await deployContract(signer)
+            updateResult('contract', res)
+        } catch (e) {
+            console.error('deploying master contract', e)
+            setError(e.message)
+        }
+        setLoading(false)
+    }
 
     return <div>
         <h1>Admin</h1>
 
-        <p>The function contains admin actions for the {APP_NAME} application. </p>
-
-        {error && <div className="error-text">
-            {error}
-        </div>}
-
         <Divider />
 
-        <h3>Manage {APP_NAME} app tables</h3>
-
-        <p>This command creates the production tables used for storing listings and offers in the {APP_NAME} application. Note this may require several confirmations, see setupTables for details. Steps:<br/><br/>
-        1) If no tables in `.env`, create listing and offer tables on Tableland then apply public access grants to each.<br/>
-        2) If tables in `.env`, apply grants to existing tables.
-        </p>
-
-        <Button className="standard-btn" type="primary" disabled={loading} loading={loading} onClick={async () => {
-            setLoading(true)
-            setError()
-            try {
-                const res = await setupTables(provider.signer)
-                setTableResult(res)
-            } catch (e) {
-                console.error('error creating tables', e)
-                setError(e.message)
-            } finally {
-                setLoading(false)
-            }
-        }}>{!hasTables? 'Create' : 'Add grants to'} app tables</Button>
+        <Card title='Deploy master contract'>
+            <Button type='primary' disabled={loading} loading={loading} onClick={deploy}>Deploy</Button>
 
 
-        {tableResult && <div>
-            <br />
-            <h2>Created tables: </h2>
-            <br />
-            Listing table: {tableResult.listingTable}<br />
-            Offer table: {tableResult.offerTable}
-        </div>}
+            {result.contract && <div>
+                <Divider />
+                <p>Result</p>
+                <pre>{JSON.stringify(result.contract, null, 2)}</pre>
+                </div>}
+        </Card>
 
-        <Divider />
+        <br/>
 
-        <h3>Verify listing</h3>
 
-        <Input
-            placeholder="Listing ID"
-            onChange={(e) => {
-                setListingId(e.target.value)
-            }}
-            value={listingId} />
+        <Card title='Generate Verified credential for handle'>
+            <Button type='primary' disabled={loading} loading={loading} onClick={generate}>Generate</Button>
 
-        <br />
 
-        <Button type="primary" disabled={loading} loading={loading} onClick={validateListing} className="standard-btn">Validate listing</Button>
+            {result.vc && <div>
+                <Divider />
+                <p>Result</p>
+                <pre>{JSON.stringify(result.vc, null, 2)}</pre>
+                </div>}
+        </Card>
 
-        {verifyResult && <div className="success-text">
-            Listing verified
-            {JSON.stringify(verifyResult)}
-        </div>}
-
-        <Divider />
 
     </div>
 

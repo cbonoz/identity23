@@ -4,27 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Button, Input, Row, Col, Steps, Result, Divider, Checkbox, Card, Image } from "antd";
 import { listingUrl, ipfsUrl, getExplorerUrl, humanError, isEmpty, } from "../util";
 import { uploadFiles } from "../util/stor";
-import TextArea from "antd/lib/input/TextArea";
 import { ACTIVE_CHAIN, APP_NAME } from "../constants";
 import { generateItem } from "../constants";
-import { FileDrop } from "./FileDrop";
-import { createListing } from "../util/tableland";
 import { ethers } from "ethers";
-import { deployContract } from "../util/listingContract";
+import { deployContract } from "../util/profileContract";
 
 const { Step } = Steps;
 
 function CreateListing() {
-  const { connect, provider, wallet, logout } = useWallet()
-
-
-  //   useEffect(() => {
-  //     const networkId = network?.chain?.id
-  //     console.log('network', network)
-  //     if (networkId) {
-  //       refetch()
-  //     }
-  //   }, [network, account])
 
   const [data, setData] = useState({});
   const [error, setError] = useState();
@@ -109,15 +96,6 @@ function CreateListing() {
       // 3) create table entry
       const listing = { ...data } // TODO: set all fields.
       listing['address'] = contract.address;
-
-      try {
-        // const price  = ethers.utils.parseEther(listing.price).toString()
-        const listingResult = createListing(provider.signer, listing)
-      } catch (e) {
-        console.error('error creating db listing', e)
-        // res['dbError'] = JSON.stringify(e.message || e.response?.message || e)
-      }
-
       // Result rendered after successful doc upload + contract creation.
       setResult(res);
     } catch (e) {
@@ -163,108 +141,6 @@ function CreateListing() {
                 setDemo()
               }}>Set demo values</a>
               <Divider />
-
-
-              <h4>Name</h4>
-              <Input
-                placeholder="Name of listing"
-                value={data.name}
-                onChange={(e) => updateData("name", e.target.value)}
-              />
-              <br />
-              <br />
-              <h4>Description</h4>
-              <TextArea
-                aria-label="Description"
-                onChange={(e) => updateData("description", e.target.value)}
-                placeholder="Add any additional description on the dataset"
-                prefix="Description"
-                value={data.description}
-              />
-              <br />
-              <br />
-
-
-              <h4>Price ({ACTIVE_CHAIN.symbol})</h4>
-              <Input
-                placeholder="Purchase price"
-                value={data.price}
-                onChange={(e) => updateData("price", e.target.value)}
-              />
-              <br />
-              <br />
-
-
-
-              <h4>[Optional] Listing image (link)</h4>
-              <Input
-                placeholder="Provide a link to an image describing your listing"
-                value={data.image}
-                onChange={(e) => updateData("image", e.target.value)}
-              />
-              <br />
-              <br />
-
-
-              <h4>[Optional] Keywords (enter separated by comma)</h4>
-              <Input
-                placeholder={"Add keywords to help others understand and find your listing"}
-                value={data.keywords}
-                onChange={(e) => updateData("keywords", e.target.value)}
-              />
-              <br />
-              <br />
-              <h4>Address</h4>
-              <Input
-                placeholder={'Your address'}
-                value={wallet?.address || data.createdby}
-                disabled
-                onChange={(e) => updateData("createdBy", e.target.value)}
-              />
-
-              {/* Checkbox for useCid */}
-              <br />
-              <br />
-              <h4>Is this a large dataset (over 5MB) or do you have a CID already?</h4>
-
-              <Checkbox
-                type="checkbox"
-                checked={data.useCid}
-                onChange={(e) => updateData("useCid", e.target.checked)}
-              />
-
-              <br />
-              <br />
-
-
-              {data.useCid && <>
-
-                <Card title="Provide CID link to dataset">
-                  <br />
-                  <p>Use an existing dataset cid or a <a href="https://lotus.filecoin.io/tutorials/lotus/large-files/" target="_blank">Lotus</a> client to upload an encrypted or unencrypted (less secure) dataset.</p>
-                  <br />
-                  <h4>Dataset CID</h4>
-                  <Input
-                    placeholder="Dataset CID"
-                    value={data.cid}
-                    onChange={(e) => updateData("cid", e.target.value)}
-                  />
-                </Card>
-              </>}
-
-              {!data.useCid && <>
-                <Card title="Upload dataset(s) for purchaseable collection">
-
-                  {/* <h3 className="vertical-margin">Upload dataset(s) for purchaseable collection</h3> */}
-                  <FileDrop
-                    files={data.files || []}
-                    setFiles={(files) => updateData("files", files)}
-                  />
-
-                </Card>
-              </>}
-
-              {/* TODO: add configurable amount of items */}
 
               <div>
 

@@ -1,9 +1,8 @@
-import Head from 'next/head';
-import Script from 'next/script';
 import UiLayoutWrapper from './lib/UiLayoutWrapper';
-
+import WagmiWrapper from './lib/WagmiWrapper';
 
 import './globals.css';
+
 
 export default function RootLayout({ children }) {
 
@@ -18,9 +17,11 @@ export default function RootLayout({ children }) {
       <meta name="description" content="Privy Auth Starter" />
     </head>
     <body>
+      <WagmiWrapper>
         <UiLayoutWrapper>
           {children}
         </UiLayoutWrapper>
+      </WagmiWrapper>
     </body>
   </html>
   )

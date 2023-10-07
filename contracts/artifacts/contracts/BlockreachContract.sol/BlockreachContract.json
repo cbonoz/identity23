@@ -1,4 +1,4 @@
-export const REACH_CONTRACT= {
+{
   "_format": "hh-sol-artifact-1",
   "contractName": "BlockreachContract",
   "sourceName": "contracts/BlockreachContract.sol",

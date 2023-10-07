@@ -28,10 +28,6 @@ export default function About() {
                 <a href="https://github.com/open23" target="_blank">GitHub</a>&nbsp;
             </p>
 
-            <p>
-                Files served from {APP_NAME} are verified and secured with Filecoin Saturn.
-            </p>
-
             <p>Note this is a hackathon prototype and would require additional work to be mainnet ready. By uploading data you agree that this service is used as-is and that data may be compromised or shared outside the platform.</p>
 
             <p>
@@ -52,18 +48,6 @@ export default function About() {
 
             <Divider />
 
-            <Card title="Upload ideas">
-
-
-                {EXAMPLE_DATASETS.map((item, i) => {
-                    return <div key={i}>
-                        <h4>{item.name}</h4>
-                        <p>{item.description}</p>
-                        <p>{item.example}</p>
-                    </div>
-                })}
-
-            </Card>
 
         </div>
     )
