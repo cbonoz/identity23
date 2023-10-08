@@ -1,17 +1,13 @@
 import { zkSyncTestnet } from "viem/chains";
 
 export const APP_NAME = 'Blockreach'
-export const APP_DESC = 'Blockreach is a landing page index of verified business web3 profiles'
+export const APP_DESC = 'A modern Yellowpages for verified web3 businesses and individuals.'
 
 export const CHAIN_OPTIONS = [
     zkSyncTestnet
 ]
 
 export const ACTIVE_CHAIN = CHAIN_OPTIONS[0]
-
-
-export const EXAMPLE_ITEM = {
-}
 
 export const IPFS_BASE_URL = 'https://ipfs.filebase.io/ipfs'
 

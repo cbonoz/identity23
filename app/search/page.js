@@ -67,7 +67,7 @@ export default function Home() {
           {filteredItems.map((item, i) => {
             return <Card.Grid className='pointer' key={i} style={gridStyle} onClick={
               () => {
-                router.push(`/listing/${item.handle}`)
+                router.push(`/profile/${item.handle}`)
               }
             }>
               {item.name && <span>{item.name}<br /></span>}

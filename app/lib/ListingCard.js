@@ -15,7 +15,7 @@ export default function ListingCard({ listing }) {
     return <Card
         className="listing-card"
         onClick={() => {
-            router.push(`/listing/${listing.address}`)
+            router.push(`/profile/${listing.address}`)
         }}
         hoverable
         actions={[

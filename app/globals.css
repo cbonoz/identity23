@@ -109,8 +109,13 @@ a {
   font-weight: bold;
 }
 
+.handle-header {
+  font-size: 52px;
+}
+
 .standard-margin {
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .dropzone {
@@ -336,4 +341,9 @@ a:hover {
 
 .ant-layout-header {
   background: white !important;
+}
+
+.listing-detail-page p, .admin-page p {
+  font-size: 20px;
+  margin-bottom: 16px;
 }

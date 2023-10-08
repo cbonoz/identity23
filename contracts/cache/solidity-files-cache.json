@@ -74,8 +74,8 @@
       ]
     },
     "/Users/chrisbuonocore/personal/hackathons/identity23/contracts/contracts/BlockreachContract.sol": {
-      "lastModificationDate": 1696713159260,
-      "contentHash": "9d945b4a45f8c549bbebbbabb6ec2de4",
+      "lastModificationDate": 1696718938927,
+      "contentHash": "900f159e26254471f9f16fd0475d3bbf",
       "sourceName": "contracts/BlockreachContract.sol",
       "solcConfig": {
         "version": "0.8.13",

@@ -54,7 +54,7 @@ const Home = () => {
             style={{ width: 200 }}
           /><br/>
 
-          <Button disabled={!handle} className='standard-btn' type="primary" onClick={() => router.push('/listing/' + handle)}>
+          <Button disabled={!handle} className='standard-btn' type="primary" onClick={() => router.push('/profile/' + handle)}>
             Go to handle
           </Button>
           <br/>

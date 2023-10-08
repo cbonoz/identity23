@@ -25,23 +25,20 @@ export default function About() {
             {/* github */}
             <p>
                 {APP_NAME} is an open source project. You can find the code on GitHub here:&nbsp;
-                <a href="https://github.com/open23" target="_blank">GitHub</a>&nbsp;
+                <a href="https://github.com/identity23" target="_blank">GitHub</a>&nbsp;
             </p>
 
             <p>Note this is a hackathon prototype and would require additional work to be mainnet ready. By uploading data you agree that this service is used as-is and that data may be compromised or shared outside the platform.</p>
-
             <p>
                 Follow the guide here to unpack your purchased content.
                 https://web3.storage/docs/how-tos/work-with-car-files/
             </p>
 
-
             <p>
-
                 {/* Create listing */}
                 <Button type="primary" onClick={() => {
-                    router.push('/create')
-                }}>Create new listing</Button>&nbsp;
+                    router.push('/search')
+                }}>Search profiles</Button>&nbsp;
 
 
             </p>

@@ -36,7 +36,6 @@ Master smart contract for the Blockreach application creates custom urls.
 Specify the following environment variables
 <pre>
     NEXT_PUBLIC_ISSUER_ADDRESS
-
 </pre>
 
 
@@ -101,7 +100,9 @@ Demo video: https://youtu.be/QQEwZOEAQjI -->
 ## Potential future work
 
 
+<!-- https://github.com/andrewszucs/onyx-hackathon-zktoro/blob/896ccf4b72fffba305d9e263b7fcd243aefd5ae2/src/app/api/vc/route.ts -->
 ### Useful links
+
 * https://www.encode.club/digital-identity-hackathon
 * https://www.w3.org/TR/did-core/
 * https://www.w3.org/TR/vc-data-model/

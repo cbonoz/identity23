@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = window.location.origin
+const baseUrl = 'http://localhost:3000'
 
 const axiosInstance = axios.create({
     baseURL: baseUrl,
@@ -10,8 +10,15 @@ const axiosInstance = axios.create({
     },
 });
 
-export const postGenerateVC = async (handle) => {
-    const res = await axiosInstance.post(`/api/provision`, {handle})
+//https://github.com/jpmorganchase/onyx-ssi-sdk
+
+export const postGenerateDid = async (handle, type) => {
+    const res = await axiosInstance.post(`/api/provision/did`, {handle, type})
+    return res.data
+}
+
+export const postGenerateVC = async (handle, holderDid) => {
+    const res = await axiosInstance.post(`/api/provision/vc`, {handle, holderDid})
     return res.data
 }
 

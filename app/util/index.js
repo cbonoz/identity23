@@ -37,7 +37,7 @@ export const ipfsUrl = (cid, fileName) => {
   return url;
 };
 
-export const listingUrl = (listingId) => `${window.location.origin}/listing/${listingId}`;
+export const listingUrl = (listingId) => `${window.location.origin}/profile/${listingId}`;
 
 export const convertCamelToHuman = (str) => {
   // Check if likely datetime timestamp ms

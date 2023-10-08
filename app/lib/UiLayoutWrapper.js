@@ -13,7 +13,7 @@ import Image from "next/image";
 function UiLayoutWrapper({ children }) {
 
     const pathname = usePathname()
-    const isListingPage = pathname.startsWith('/listing')
+    const isListingPage = pathname.startsWith('/profile')
     const menuItems = []
     if (!isListingPage) {
         menuItems.push({
@@ -21,12 +21,12 @@ function UiLayoutWrapper({ children }) {
             label: <Link href="/search">Search</Link>,
             href: '/search',
         })
-        menuItems.push(
-            {
-                key: '/create',
-                label: <Link href="/create">Create</Link>,
-                href: '/create',
-            })
+        // menuItems.push(
+        //     {
+        //         key: '/create',
+        //         label: <Link href="/create">Create</Link>,
+        //         href: '/create',
+        //     })
     }
 
     menuItems.push({
