@@ -26,6 +26,7 @@ const ListingDetail = ({ listingId, provider }) => {
     const [loading, setLoading] = useState(true)
     const [showOfferModal, setShowOfferModal] = useState(false)
     const [claimResult, setClaimResult] = useState()
+    const [showClaimModal, setShowClaimModal] = useState(false)
     const [presentation, setPresentation] = useState()
     const [result, setResult] = useState()
     const [error, setError] = useState()
@@ -171,7 +172,7 @@ Verified
                         </p>
 
                         {!isVerified && <Button size="large" type="primary" onClick={() => {
-                            claimAccount()
+                            setShowClaimModal(true)
                         }}>Claim account</Button>}
 
                         {/* Send inquiry */}
@@ -217,6 +218,22 @@ Verified
                 />
 
             </Modal>
+
+
+            <Modal
+                title={'Claim account'}
+                open={showClaimModal}
+                okText="Claim account"
+                onOk={() => setShowClaimModal(false)}
+                confirmLoading={loading}
+                onCancel={() => setShowClaimModal(false)}>
+
+                    <p>
+                        To claim this account, enter a valid Verifiable Presentation (VP) associated with this account. To get one, a {APP_NAME} admin can generate a credential for you.
+                    </p>
+                    <Input placeholder="Enter VP" value={presentation} onChange={(e) => setPresentation(e.target.value)} />
+
+                </Modal>
 
         </div>)
 };
