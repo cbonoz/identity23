@@ -14,16 +14,17 @@ import {
 import { ACTIVE_CHAIN } from "../constants";
 
 const didKey = new KeyDIDMethod();
-const ethrProvider = {
-    name: ACTIVE_CHAIN.network,
-    rpcUrl: ACTIVE_CHAIN.rpcUrls.default.http,
-    registry: ACTIVE_CHAIN.contracts?.multicall3?.address,
-}
+
 // const ethrProvider = {
-//     name: 'maticmum',
-//     rpcUrl: 'https://rpc-mumbai.maticvigil.com/',
-//     registry: "0x41D788c9c5D335362D713152F407692c5EEAfAae"
+//     name: ACTIVE_CHAIN.network,
+//     rpcUrl: ACTIVE_CHAIN.rpcUrls.default.http,
+//     registry: ACTIVE_CHAIN.contracts?.multicall3?.address,
 // }
+const ethrProvider = {
+    name: 'maticmum',
+    rpcUrl: 'https://rpc-mumbai.maticvigil.com/',
+    registry: "0x41D788c9c5D335362D713152F407692c5EEAfAae"
+}
 const didEthr = new EthrDIDMethod(ethrProvider);
 const jwtService = new JWTService();
 
@@ -84,7 +85,7 @@ export const createVPfromVC = async (holderDID, signedVcJwt) => {
 
 // VP can be verified by a verifier (the main app).
 // https://github.com/jpmorganchase/onyx-ssi-sdk-examples/blob/main/src/verifier/verify.ts
-export const verifyVP = async (signedVpJwt) => {
+export const verifyVP = async (signedVpJwt, expectedHandle) => {
 
     const didResolver = getSupportedResolvers([didKey, didEthr]);
 
@@ -98,6 +99,17 @@ export const verifyVP = async (signedVpJwt) => {
         signedVpJwt,
         didResolver
     );
+
+    if (isVpJwtValid) {
+        const decodedVP = await jwtService.decodeJWT(signedVpJwt);
+        const vcSigned = decodedVP.payload.vp.verifiableCredential[0]
+        // decode vc
+        const decodedVC = await jwtService.decodeJWT(vcSigned);
+        const decodedHandle = decodedVC.payload.vc.credentialSubject?.handle
+        if (decodedHandle !== expectedHandle) {
+            throw new Error(`Handle ${decodedHandle} does not match expected handle ${expectedHandle}`)
+        }
+    }
 
     console.log("\nVP JWT verification result\n");
     console.log(isVpJwtValid);

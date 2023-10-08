@@ -5,7 +5,6 @@ import { ContractFactory } from "zksync-web3";
 
 // https://era.zksync.io/docs/reference/concepts/account-abstraction.html#building-custom-accounts
 export async function deployContract(signer) {
-    // Deploy contract with ethers
     const factory = new ContractFactory(
         REACH_CONTRACT.abi,
         REACH_CONTRACT.bytecode,

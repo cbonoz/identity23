@@ -22,8 +22,8 @@ export const postGenerateVC = async (handle, holderDid) => {
     return res.data
 }
 
-export const postVerifyVP = async (presentation) => {
-    const res = await axiosInstance.post(`/api/verify`, {presentation})
+export const postVerifyVP = async (presentation, handle) => {
+    const res = await axiosInstance.post(`/api/verify`, {presentation, handle})
     return res.data
 }
 

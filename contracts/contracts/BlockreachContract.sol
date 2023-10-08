@@ -123,7 +123,6 @@ contract BlockreachContract is IPaymaster, Ownable {
         inquiries.push(inquiry);
         emit InquirySent(msg.sender, _handle, _message, msg.value);
     }
-   
 
     // verify profile (owner only)
     function verifyProfile(string memory _handle) public onlyOwner {

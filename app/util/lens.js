@@ -15,11 +15,11 @@ export const getProfileByHandle = async (handle) => {
         handle,
     })
 
-    // const publications = await lensClient.profile.stats({
-    //     handle,
-    // })
-    const publications = {}
-    return {profile, publications}
+    const publications = await lensClient.publication.fetchAll({
+        profileId: profile.id,
+        commentsOfOrdering: 'DESC',
+    })
+    return {profile, publications: publications.items}
 }
 
 export const searchProfiles = (query, limit) => {

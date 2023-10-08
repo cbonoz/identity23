@@ -134,10 +134,13 @@ export default function Admin() {
             <Button type='primary' disabled={loading || !handle || !holderDid} loading={loading} onClick={generate}>Generate</Button>
 
 
-            {result.vc && <div>
+            {result.vc && <div style={{
+                whiteSpace: 'pre-wrap',
+                wordWrap: 'break-word'
+            }}>
                 <Divider />
                 <p>Result</p>
-                <pre>{JSON.stringify(result.vc, null, 2)}</pre>
+                {JSON.stringify(result.vc, null, 2)}
             </div>}
         </Card>
 

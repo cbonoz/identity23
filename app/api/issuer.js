@@ -1,11 +1,11 @@
 // Could also be a file or secret.
 export const ISSUER_DID = {
-    "did": {
-      "did": "did:ethr:zksync-era-testnet:0xa24e21E7d332F1bc9852378D1cE537B8ef34bD25",
-      "keyPair": {
-        "algorithm": "ES256K",
-        "publicKey": "03e74fcd4c02c0bf1787125ecf7932e59dd8c0de3e8152bc193d432853a07ebe97",
-        "privateKey": "0x82e448949f188fd6a3f3aef9d575ab2b6ef15d5a04a6b01f8b4d49ec5d290c61"
-      }
+  "did": {
+    "did": "did:ethr:maticmum:0x18C6038c8D15d5d5425294218E3c3172d4Ae5539",
+    "keyPair": {
+      "algorithm": "ES256K",
+      "publicKey": "0207adcf3369f7962750f7ad2d4d1e159ee5b33ce02ccadbeb8d877c05ae83d8d4",
+      "privateKey": "0x996287d5e913fcaa0bbd9044e74fb1612b35bc3ec104db261f9641c2304bee3a"
     }
   }
+}

@@ -15,12 +15,17 @@ import {
     Breadcrumb,
     Result,
     Statistic,
+    Tooltip,
 } from 'antd';
 import Image from 'next/image'
 import { ACTIVE_CHAIN, APP_NAME, EXAMPLE_OFFERS, STAT_KEYS } from '../constants';
 import { getProfileByHandle, getProfileById } from '../util/lens'
-import { isEmpty } from '../util';
+import VerifiedCheck from '../lib/VerifiedCheck';
+import { formatDate, isEmpty } from '../util';
 import { postVerifyVP } from '../util/api';
+import { Comment } from '@ant-design/compatible';
+import { InfoCircleOutlined } from '@ant-design/icons';
+import TextArea from 'antd/es/input/TextArea';
 
 const ListingDetail = ({ listingId, provider }) => {
     const [loading, setLoading] = useState(true)
@@ -34,6 +39,30 @@ const ListingDetail = ({ listingId, provider }) => {
     const [amount, setAmount] = useState()
     console.log('listing', listingId)
 
+    const verifyPresentation = async () => {
+        if (!presentation) {
+            return
+        }
+        setLoading(true)
+        try {
+            const res = await postVerifyVP(presentation, profile?.handle || listingId)
+            console.log('verified', res)
+            setShowClaimModal(false)
+            if (res.verified) {
+                alert('Account verified!')
+            } else {
+                const err = res.error || 'Is your VP valid for this handle?'
+                alert('Account could not be verified: ' + err);
+            }
+            setResult(res)
+        } catch (e) {
+            console.error('error verifying', e)
+            setError(e.message)
+        } finally {
+            setLoading(false)
+        }
+    }
+
     async function fetchListing(id) {
         setError()
         setLoading(true)
@@ -44,8 +73,8 @@ const ListingDetail = ({ listingId, provider }) => {
             }
             console.log('got profile', res)
             // TODO: fetch from contract (zksync/free)
-            res.isVerified = false;
-            setProfile(res.profile)
+            res.verified = false;
+            setProfile(res);
 
 
         } catch (e) {
@@ -53,18 +82,6 @@ const ListingDetail = ({ listingId, provider }) => {
             setError(e.message)
         } finally {
             setLoading(false)
-        }
-    }
-
-    async function claimAccount() {
-
-        try {
-            const res = await postVerifyVP(presentation)
-            console.log('verified', res)
-            setResult(res)
-        } catch (e) {
-            console.error('error verifying', e)
-            setError(e.message)
         }
     }
 
@@ -85,17 +102,21 @@ const ListingDetail = ({ listingId, provider }) => {
     if (error || !profile) {
         return <Result
             status="warning"
-            title="Error accessing profile"
-            subTitle={error || 'Please try another hanle or return to search'}
+            title="Profile page error"
+            subTitle={error || 'Please try another handle or return to search'}
             extra={[
-                <Button type="primary" key={'search'} onClick={() => window.location.href = '/'}>Return to search</Button>
+                <Button type="primary" key={'refresh page'} onClick={() => setError()}>Return to page</Button>,
+                <Button type="dashed" key={'search'} onClick={() => window.location.href = '/'}>Return to search</Button>
             ]}
         />
     }
 
-    const { name, isVerified, bio, handle, picture, coverPicture, stats } = profile;
+    const { name, verified, bio, handle, picture, coverPicture, stats } = profile.profile;
+    const publications = profile.publications || [];
 
-    const cardTitle = `${name} (${handle})}`
+    const isVerified = result?.verified || verified;
+
+    const cardTitle = `${name} (${handle})`
 
 
     const breadcrumbs = [
@@ -113,13 +134,15 @@ const ListingDetail = ({ listingId, provider }) => {
         }
     ]
 
+    const profileImage = picture ? picture.original.url : '/profile.png'
+
     return (
         <div className="listing-detail-page">
             <div>
                 {/* <Image src={logo}/> */}
             </div>
-            <br/>
-            <Breadcrumb style={{fontSize: 16}} items={breadcrumbs} />
+            <br />
+            <Breadcrumb style={{ fontSize: 16 }} items={breadcrumbs} />
             <br />
 
             <Card
@@ -132,18 +155,18 @@ const ListingDetail = ({ listingId, provider }) => {
             >
                 <Row gutter={16}>
                     <Col span={8}>
-                        <Image src={picture.original.url} 
-                        alt="profile picture"
-                         layout='fill'
-                         objectFit='contain'
-                         />
+                        <Image src={profileImage}
+                            alt="profile picture"
+                            layout='fill'
+                            objectFit='contain'
+                        />
                     </Col>
                     <Col span={16}>
                         <span>
-                        <span className='handle-header bold'>{handle}</span>
-                        <span className='float-right'>
-Verified
-</span>
+                            <span className='handle-header bold'>{handle}</span>
+                            <span className='float-right'>
+                                <VerifiedCheck verified={isVerified} />
+                            </span>
                         </span>
                         {bio && <Typography.Paragraph>{bio}</Typography.Paragraph>}
                         <Statistic title="Followers" value={stats.totalFollowers} />
@@ -152,7 +175,7 @@ Verified
                     </Col>
                 </Row>
 
-                <Divider/>
+                <Divider />
 
                 <Row gutter={16}>
                     <Col span={24}>
@@ -176,11 +199,19 @@ Verified
                         }}>Claim account</Button>}
 
                         {/* Send inquiry */}
-                        <br/>
-                        <br/>
-                        <Button size="large" type="primary" onClick={() => {
+                        <br />
+                        <br />
+
+                        {!isVerified && <Tooltip title="Account must be verified to send inquiries">
+                            <InfoCircleOutlined />
+                        </Tooltip>}
+                        <Button size="large" type="primary" disabled={!isVerified} onClick={() => {
                             setShowOfferModal(true)
-                        }}>Send inquiry</Button>
+                        }}>Send inquiry</Button>&nbsp;
+                        <Button size="large" type="primary" disabled={!isVerified} onClick={() => {
+                            setShowOfferModal(true)
+                        }}>Submit payment</Button>
+
 
 
                         {result && <div>
@@ -190,11 +221,28 @@ Verified
                         </div>}
 
                     </Col>
+
                 </Row>
+                <Row>
+                    <Col span={24}>
+                        <br />
+                        <br />
+                        <h1>Recent Activity</h1>
 
 
+                        {publications.map((p) => {
+                            const { createdAt, metadata, appId } = p
+                            return <div key={p.id}>
+                                <Comment content={metadata.content} datetime={formatDate(createdAt)} avatar={
+                                    <Avatar src={profileImage} alt={metadata.name} />
+                                }
+                                    author={`${metadata.name} (${appId})`} />
+                            </div>
+                        })}
+                    </Col>
+
+                </Row>
             </Card>
-
 
 
             {/* TODO: enable offer */}
@@ -224,16 +272,17 @@ Verified
                 title={'Claim account'}
                 open={showClaimModal}
                 okText="Claim account"
-                onOk={() => setShowClaimModal(false)}
+                size="large"
+                onOk={() => verifyPresentation()}
                 confirmLoading={loading}
                 onCancel={() => setShowClaimModal(false)}>
+                <p>
+                    To claim this account, enter a valid Verifiable Presentation (VP) associated with this account. To get one, a {APP_NAME} admin can generate a credential for you.
+                </p>
+                <br />
+                <TextArea placeholder="Enter VP" value={presentation} onChange={(e) => setPresentation(e.target.value)} />
 
-                    <p>
-                        To claim this account, enter a valid Verifiable Presentation (VP) associated with this account. To get one, a {APP_NAME} admin can generate a credential for you.
-                    </p>
-                    <Input placeholder="Enter VP" value={presentation} onChange={(e) => setPresentation(e.target.value)} />
-
-                </Modal>
+            </Modal>
 
         </div>)
 };
