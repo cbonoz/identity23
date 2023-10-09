@@ -167,6 +167,21 @@ const ListingDetail = ({ listingId, provider }) => {
         }
     ]
 
+    const RenderContent = ({metadata}) => {
+        if (!metadata) {
+            return
+        }
+        if (metadata.content) {
+            return <span>{metadata.content}</span>
+        }
+
+        if (metadata.image) {
+            return <Image src={metadata.image} alt={metadata.name} width={64} height={64}/>
+        }
+        return <span></span>
+    }
+
+
     const profileImage = picture ? picture.original.url : '/profile.png'
 
     return (
@@ -292,7 +307,7 @@ const ListingDetail = ({ listingId, provider }) => {
                                 return
                             }
                             return <div key={p.id}>
-                                <Comment content={metadata.content} datetime={formatDate(createdAt)} avatar={
+                                <Comment content={<RenderContent metadata={metadata}/>} datetime={formatDate(createdAt)} avatar={
                                     <Avatar src={profileImage} alt={metadata.name} />
                                 }
                                     author={`${metadata.name} (${appId})`} />
