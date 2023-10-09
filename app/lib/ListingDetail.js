@@ -220,7 +220,10 @@ const ListingDetail = ({ listingId, provider }) => {
                             <p>
                                 {(isVerified && address) ? <span className="verified-badge success-text">
                                     {/* <Image src="/verified.svg" width={20} height={20} alt="verified" /> */}
-                                    This account is verified by {APP_NAME}.
+                                    This account is verified by {APP_NAME}&nbsp;
+                                    <Tooltip className='pointer' title="Verified accounts have been provided a secure identity credential and this page has been confirmed an official handle account by Blockreach">
+                                        <InfoCircleOutlined  />
+                                    </Tooltip>
                                 </span> : <span></span>}
                             </p>
 
