@@ -63,7 +63,7 @@ Blockreach pulls information from LENS to create a verified profile page for the
 1. Blockreach app has an admin issuer/verifier account that is run server side and used to validate new business page creations.
 2. These server verifies all new page requests and generates unique DID and VC/VP keys that are saveable by each page owner.
 
-* <b>Lens Protocol</>: At its core, Blockreach works off Lens profiles to pull business pre-existing profile and reputation information (with recent activity) automatically. Using Lens enables landing pages without recreating information or social reputation from scratch.
+* <b>Lens Protocol</b>: At its core, Blockreach works off Lens profiles to pull business pre-existing profile and reputation information (with recent activity) automatically. Using Lens enables landing pages without recreating information or social reputation from scratch.
 
 * <b>ZkSync Paymasters and L2 Contracts</b>: Manages ontract transactions and auditable trail for all activities on the app. A master smart contract is deployethat manages metadata and the verifiable statuses for each business or entity on the platform. Payments and peer to peer outreach are also mediated through this contract between visitors to the app and the profile page account owners.
 

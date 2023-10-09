@@ -50,7 +50,7 @@ const Home = () => {
             size='large'
             className='standard-padding'
             onChange={(e) => setHandle(e.target.value)}
-            placeholder="Enter handle"
+            placeholder="Enter lens handle"
             style={{ width: 200 }}
           /><br/>
 
