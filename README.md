@@ -7,9 +7,11 @@
 Blockreach
 ---
 
-A modern Yellowpages for verified web3 businesses.
+A modern Yellowpages for verified web3 individual and business profiles.
 
 Blockreach is a contemporary platform akin to Yellowpages amd tailored for verified web3 individuals and businesses. It serves as a bridge for secure B2B communication, ensuring that both parties can be confident they are contacting an authorized source. This assurance is achieved through Blockreach-issued verifiable credentials (VCs) and decentralized identifiers.
+
+Built for the <a href="https://www.encode.club/digital-identity-hackathon" target="_blank">Encode digital identity hackathon 2023</a> in the FInance & Identity intersection category with B2B payments.
 
 Live Demo (testnet, must be connected to Zksync Era): blockreach.vercel.com
 
@@ -21,22 +23,17 @@ Accounts have an additional layer of security through Blockreach-issued DIDs and
 
 Salespeople and partners are constantly looking for ways to get in contact with a business or make themselves known. Blockreach addresses this need by enabling businesses to create their own secure contact pages, facilitating interactions via smart contracts managed through the Blockreach app. Furthermore, Blockreach enhances security by assigning Decentralized Identifiers (DIDs) and VCs to verified partners.
 
-With blockreach, your business can create a free (or paid) secured contact page where folks can interest with a business provisioned smart contract all managed by the blockreach app.
-
-
+With blockreach, your business can create a free (or paid) secured contact page where folks can interest with a business provisioned smart contract all managed by the blockreach app. Going after the Finance & Identity Intersection category 
 
 ## What it does
 
 Blockreach enables secure B2B communication where both parties are known to be contacting an authorized source (and not an impersonator) by using a Blockreach issued verifiable credential (VC).
 
 
-### Core functions
-* Create business landing page
-* Issuer (indicated by Blockreach admin) issues a VC to a newly registered business
-
-
-### Existing contract
+### Existing app contract
 https://goerli.explorer.zksync.io/address/0xcA5ce6dAe1156E7e222cD4c6BE35F6D343b11886
+
+This contract is referenced from the hosted testnet app linked above.
 
 
 ## Running the project (from scratch)
@@ -61,16 +58,14 @@ Any repeated starts can be done with `yarn dev` once all variables set.
 
 Blockreach pulls information from LENS to create a verified profile page for the business with contact information using Onyx and LENS. Zero/low fee interactions with the verified business account interactions facilitated with a paymaster ZkSync that refunds gas fees.
 
-* JPM Onyx sdk: Social Identity Integration and Finance and Identity integration. The Onyx SDK is used for two key pieces.
+* <b>JPM Onyx sdk</b>: Social Identity Integration and Finance and Identity integration. The Onyx SDK is used for two key pieces. Most of the behavior of the app is server side, and contained in the `/api` provision and verify route folders.
 
-1. Blockreach app has an admin ssue and verifier account that is stored server side and used to validate new business page creations.
-2. These accounts verify all new page requests and generate unique keys that are saveable by the page owner once successfully verified.
+1. Blockreach app has an admin issuer/verifier account that is run server side and used to validate new business page creations.
+2. These server verifies all new page requests and generates unique DID and VC/VP keys that are saveable by each page owner.
 
-These actions are all available from the `/admin` admin route when authenticated with an app wallet matching the admin address and should be the owner of the master contract as well.
+* <b>Lens Protocol</>: At its core, Blockreach works off Lens profiles to pull business pre-existing profile and reputation information (with recent activity) automatically. Using Lens enables landing pages without recreating information or social reputation from scratch.
 
-* LENS: Pull business social profile information and recent history automatically. Enables landing pages without recreating information or social reputation from scratch.
-
-* ZkSync: L2 paymaster contract transactions and auditable trail for all activities on the app. A master smart contract is deployethat manages metadata and the verifiable statuses for each business or entity on the platform. Payments and peer to peer outreach are also mediated through this contract between visitors to the app and the profile page account owners.
+* <b>ZkSync Paymasters and L2 Contracts</b>: Manages ontract transactions and auditable trail for all activities on the app. A master smart contract is deployethat manages metadata and the verifiable statuses for each business or entity on the platform. Payments and peer to peer outreach are also mediated through this contract between visitors to the app and the profile page account owners.
 
  <p>Note this project is a hackathon prototype and would require additional work to be mainnet ready.</p>
 
