@@ -1,6 +1,8 @@
 import { Button } from 'antd'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useEffect } from 'react'
+import { useAccount, useConnect, useDisconnect, useSwitchNetwork } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { ACTIVE_CHAIN } from '../constants'
  
 function ConnectButton({buttonType = 'primary'}) {
   const { address, isConnected } = useAccount()
@@ -8,7 +10,15 @@ function ConnectButton({buttonType = 'primary'}) {
     connector: new InjectedConnector(),
   })
   const { disconnect } = useDisconnect()
- 
+  const { chains, error, isLoading, pendingChainId, switchNetwork } =
+  useSwitchNetwork()
+
+  useEffect(() => {
+    if (pendingChainId !== ACTIVE_CHAIN.id) {
+      switchNetwork?.(ACTIVE_CHAIN.id)
+    }
+  }, [pendingChainId, address, isConnected])
+
   if (isConnected)
     return (
       <div>
