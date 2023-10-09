@@ -7,7 +7,7 @@
 Blockreach
 ---
 
-A modern Yellowpages for verified web3 individual and business profiles secured by Onyx and Zksync smart contracts.
+A modern Yellowpages for verified web3 individual and business profiles secured by the Onyx SSI sdk and Zksync smart contracts.
 
 
 Built for the <a href="https://www.encode.club/digital-identity-hackathon" target="_blank">Encode digital identity hackathon 2023</a> in the FInance & Identity intersection category with B2B payments.
