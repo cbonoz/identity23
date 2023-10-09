@@ -2,7 +2,7 @@ import { Button } from 'antd'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
  
-function ConnectButton() {
+function ConnectButton({buttonType = 'primary'}) {
   const { address, isConnected } = useAccount()
   const { connect } = useConnect({
     connector: new InjectedConnector(),
@@ -16,7 +16,7 @@ function ConnectButton() {
         <Button type="link" onClick={() => disconnect()}>Disconnect</Button>
       </div>
     )
-  return <Button type="primary" onClick={() => connect()}>Connect Wallet</Button>
+  return <Button type={buttonType} onClick={() => connect()}>Connect Wallet</Button>
 }
 
 export default ConnectButton

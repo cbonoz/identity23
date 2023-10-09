@@ -9,6 +9,8 @@ export const CHAIN_OPTIONS = [
 
 export const ACTIVE_CHAIN = CHAIN_OPTIONS[0]
 
+export const BLOCKREACH_ADDRESS = process.env.NEXT_PUBLIC_BLOCKREACH_ADDRESS
+
 export const IPFS_BASE_URL = 'https://ipfs.filebase.io/ipfs'
 
 export const ADMIN_ADDRESS = process.env.NEXT_PUBLIC_ADMIN_ADDRESS

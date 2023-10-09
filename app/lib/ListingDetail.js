@@ -21,23 +21,30 @@ import Image from 'next/image'
 import { ACTIVE_CHAIN, APP_NAME, EXAMPLE_OFFERS, STAT_KEYS } from '../constants';
 import { getProfileByHandle, getProfileById } from '../util/lens'
 import VerifiedCheck from '../lib/VerifiedCheck';
-import { formatDate, isEmpty } from '../util';
+import { formatDate, getExplorerUrl, isEmpty } from '../util';
 import { postVerifyVP } from '../util/api';
 import { Comment } from '@ant-design/compatible';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
+import { useAccount } from 'wagmi';
+import { claimProfile, getProfile, sendInquiry } from '../util/profileContract';
+import { useEthersSigner } from '../hooks/useEthersSigner';
+import ConnectButton from './ConnectButton';
 
 const ListingDetail = ({ listingId, provider }) => {
     const [loading, setLoading] = useState(true)
-    const [showOfferModal, setShowOfferModal] = useState(false)
-    const [claimResult, setClaimResult] = useState()
+    const [modalConfig, setModalConfig] = useState({})
+    const [inquireLoading, setInquireLoading] = useState(false)
     const [showClaimModal, setShowClaimModal] = useState(false)
     const [presentation, setPresentation] = useState()
-    const [result, setResult] = useState()
     const [error, setError] = useState()
     const [profile, setProfile] = useState()
     const [amount, setAmount] = useState()
-    console.log('listing', listingId)
+    const [message, setMessage] = useState()
+    const [result, setResult] = useState()
+    // get account from web3
+    const { address } = useAccount()
+    const signer = useEthersSigner({ chainId: ACTIVE_CHAIN.id })
 
     const verifyPresentation = async () => {
         if (!presentation) {
@@ -48,13 +55,16 @@ const ListingDetail = ({ listingId, provider }) => {
             const res = await postVerifyVP(presentation, profile?.handle || listingId)
             console.log('verified', res)
             setShowClaimModal(false)
-            if (res.verified) {
-                alert('Account verified!')
-            } else {
+            if (!res.verified) {
                 const err = res.error || 'Is your VP valid for this handle?'
                 alert('Account could not be verified: ' + err);
+                return;
             }
-            setResult(res)
+            await claimProfile(signer, listingId)
+            setResult({
+                verified: true,
+                message: "It may take a few moments for the verification status on the page to update"
+            })
         } catch (e) {
             console.error('error verifying', e)
             setError(e.message)
@@ -66,17 +76,25 @@ const ListingDetail = ({ listingId, provider }) => {
     async function fetchListing(id) {
         setError()
         setLoading(true)
+        let res = profile || {};
         try {
-            const res = await getProfileByHandle(id)
-            if (isEmpty(res)) {
-                throw new Error('Profile not found. Do you have a valid profile url?')
+            if (profile?.handle !== id) {
+                res = await getProfileByHandle(id)
+                if (isEmpty(res)) {
+                    throw new Error('Profile not found. Do you have a valid profile url?')
+                }
             }
-            console.log('got profile', res)
-            // TODO: fetch from contract (zksync/free)
-            res.verified = false;
+            try {
+                const metadata = await getProfile(signer, id)
+                console.log('got metadata', metadata)
+                const verified = !!metadata[2];
+                res.verified = verified;
+            } catch (e) {
+                console.error('error getting metadata', e)
+                res.verified = false
+            }
+            console.log('set profile', res)
             setProfile(res);
-
-
         } catch (e) {
             console.error('error getting listing', e)
             setError(e.message)
@@ -85,15 +103,27 @@ const ListingDetail = ({ listingId, provider }) => {
         }
     }
 
-    async function sendInquiry() {
+    async function inquire() {
+        setError()
+        setInquireLoading(true)
+        try {
+            const res = await sendInquiry(signer, listingId, amount)
+            console.log('sent inquiry', res)
+            setResult({ hash: res.hash })
+        } catch (e) {
+            console.error('error sending inquiry', e)
+            setError(e.message)
+        } finally {
+            setModalConfig({})
+            setInquireLoading(false)
+        }
+
 
     }
 
     useEffect(() => {
         fetchListing(listingId)
-    }, [listingId])
-
-
+    }, [listingId, signer])
 
     if (loading) {
         return <Spin size='large' />
@@ -111,10 +141,9 @@ const ListingDetail = ({ listingId, provider }) => {
         />
     }
 
-    const { name, verified, bio, handle, picture, coverPicture, stats } = profile.profile;
+    const { name, bio, handle, picture, coverPicture, stats } = profile.profile;
     const publications = profile.publications || [];
-
-    const isVerified = result?.verified || verified;
+    const isVerified = profile.verified;
 
     const cardTitle = `${name} (${handle})`
 
@@ -147,11 +176,11 @@ const ListingDetail = ({ listingId, provider }) => {
 
             <Card
                 title={cardTitle}
-                cover={
-                    coverPicture ? (
-                        <img src={coverPicture.original.url} alt={coverPicture.altTag} />
-                    ) : null
-                }
+            // cover={
+            //     coverPicture ? (
+            //         <Image src={profileImage} width={200} height={200} alt="cover picture" />
+            //     ) : null
+            // }
             >
                 <Row gutter={16}>
                     <Col span={8}>
@@ -179,59 +208,74 @@ const ListingDetail = ({ listingId, provider }) => {
 
                 <Row gutter={16}>
                     <Col span={24}>
+                        {!address && <p className=''>
+                            Connect wallet to access profile page.
+                            <div className='standard-margin'>
+                                <ConnectButton buttonType='dashed' />
+                            </div>
 
-                        <p>
-                            {isVerified ? <div className="verified-badge success-text">
-                                {/* <Image src="/verified.svg" width={20} height={20} alt="verified" /> */}
-                                This account is verified by {APP_NAME}.
-                            </div> : <div className="unverified-badge error-text">
-                                {/* <Image src="/unverified.svg" width={20} height={20} alt="unverified" /> */}
-                                This account is unverified.
+
+                        </p>}
+                        {address && <div>
+                            <p>
+                                {(isVerified && address) ? <span className="verified-badge success-text">
+                                    {/* <Image src="/verified.svg" width={20} height={20} alt="verified" /> */}
+                                    This account is verified by {APP_NAME}.
+                                </span> : <span></span>}
+                            </p>
+
+                            {!isVerified && <div>
+                                <p>
+                                    To claim this account, enter a valid Verifiable Presentation (VP) associated with this account. To get one, a {APP_NAME} admin can generate a credential for you.
+                                </p>
+
+                                {<span><Button disabled={!address} size="large" type="primary" onClick={() => {
+                                    setShowClaimModal(true)
+                                }}>Claim account</Button>&nbsp;
+                                    {!address && <span className="">Please connect your wallet to claim this account.
+                                        {!isVerified && <Tooltip title="Account must be claimed and verified for others to send inquiries">
+                                            <InfoCircleOutlined size={"large"} />
+                                        </Tooltip>}
+                                    </span>}
+                                </span>}
                             </div>}
-                        </p>
-
-                        <p>
-                            To claim this account, enter a valid Verifiable Presentation (VP) associated with this account. To get one, a {APP_NAME} admin can generate a credential for you.
-                        </p>
-
-                        {!isVerified && <Button size="large" type="primary" onClick={() => {
-                            setShowClaimModal(true)
-                        }}>Claim account</Button>}
-
-                        {/* Send inquiry */}
-                        <br />
-                        <br />
-
-                        {!isVerified && <Tooltip title="Account must be verified to send inquiries">
-                            <InfoCircleOutlined />
-                        </Tooltip>}
-                        <Button size="large" type="primary" disabled={!isVerified} onClick={() => {
-                            setShowOfferModal(true)
-                        }}>Send inquiry</Button>&nbsp;
-                        <Button size="large" type="primary" disabled={!isVerified} onClick={() => {
-                            setShowOfferModal(true)
-                        }}>Submit payment</Button>
-
-
-
-                        {result && <div>
                             <Divider />
-                            <p>Result</p>
-                            <pre>{JSON.stringify(result, null, 2)}</pre>
-                        </div>}
 
+
+                            <Button size="large" type="primary" disabled={!isVerified} onClick={() => {
+                                setModalConfig({
+                                    type: 'inquiry',
+                                })
+                            }}>Send inquiry</Button>&nbsp;
+                            <Button size="large" type="primary" disabled={!isVerified} onClick={() => {
+                                setModalConfig({
+                                    type: 'payment',
+                                })
+                            }}>Submit payment</Button>
+
+                            {result && <div>
+                                <Divider />
+                                <p>Result</p>
+                                {result.hash && <p>
+                                    {/* <span className='success-text'>Transaction sent!  </span> */}
+                                    <a href={getExplorerUrl(result.hash, true)} target="_blank">View transaction</a>
+                                </p>}
+                                <pre>{JSON.stringify(result, null, 2)}</pre>
+                            </div>}
+                        </div>}
                     </Col>
 
                 </Row>
-                <Row>
+                {address && <Row>
                     <Col span={24}>
                         <br />
                         <br />
                         <h1>Recent Activity</h1>
-
-
                         {publications.map((p) => {
                             const { createdAt, metadata, appId } = p
+                            if (!metadata) {
+                                return
+                            }
                             return <div key={p.id}>
                                 <Comment content={metadata.content} datetime={formatDate(createdAt)} avatar={
                                     <Avatar src={profileImage} alt={metadata.name} />
@@ -240,30 +284,38 @@ const ListingDetail = ({ listingId, provider }) => {
                             </div>
                         })}
                     </Col>
-
-                </Row>
+                </Row>}
             </Card>
 
 
             {/* TODO: enable offer */}
             <Modal
-                title={'Send inquiry'}
-                open={showOfferModal}
-                okText="Make offer"
-                onOk={() => setShowOfferModal(false)}
-                confirmLoading={loading}
-                onCancel={() => setShowOfferModal(false)}
+                title={`Send ${modalConfig.type} to ${handle}`}
+                open={!!modalConfig.type}
+                okText={`Send ${modalConfig.type}`}
+                onOk={inquire}
+                confirmLoading={loading || inquireLoading}
+                onCancel={() => setModalConfig({})}
             >
-                <Divider />
-
-                <Input
-                    type="number"
-                    placeholder={`Enter amount (${ACTIVE_CHAIN.nativeCurrency.symbol})`}
-                    prefix={`Your offer (${ACTIVE_CHAIN.nativeCurrency.symbol}):`}
-                    value={amount}
-                    onError={(e) => console.log('error', e)}
-                    onChange={(e) => setAmount(e.target.value)}
+                <h3>You can send messages and payments to verified accounts.</h3>
+                <br />
+                <p>Message / Memo</p>
+                <TextArea placeholder="Enter message"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
                 />
+                {modalConfig.type === 'payment' && <div>
+                    <br />
+                    <p>[Optional] Send amount with message</p>
+                    <Input
+                        type="number"
+                        placeholder={`Enter amount (${ACTIVE_CHAIN.nativeCurrency.symbol}) to send`}
+                        prefix={`Include payment (${ACTIVE_CHAIN.nativeCurrency.symbol}):`}
+                        value={amount}
+                        onError={(e) => console.log('error', e)}
+                        onChange={(e) => setAmount(e.target.value)}
+                    />
+                </div>}
 
             </Modal>
 

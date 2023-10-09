@@ -25,6 +25,7 @@
   },
   "scripts": {
     "test": "NODE_ENV=test hardhat test --network zkSyncTestnet",
-    "compile": "hardhat compile --network zkSyncTestnet"
+    "compile": "hardhat compile --network zkSyncTestnet",
+    "deploy": "hardhat deploy-zksync --script deploy/blockreach.ts --network zkSyncTestnet"
   }
 }

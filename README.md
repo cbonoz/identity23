@@ -35,10 +35,11 @@ Master smart contract for the Blockreach application creates custom urls.
 
 Specify the following environment variables
 <pre>
-    NEXT_PUBLIC_ISSUER_ADDRESS
+NEXT_PUBLIC_BLOCKREACH_CONTRACT= // address of new contract or use existing.
 </pre>
 
-
+### Existing contract
+https://goerli.explorer.zksync.io/address/0xf52c4F91ab2784200a68296b4c882Ee1520f20cf
 
 
 ## Technologies used

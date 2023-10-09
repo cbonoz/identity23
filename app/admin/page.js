@@ -1,18 +1,31 @@
 'use client';
 
 import { Button, Card, Divider, Input } from "antd";
-import { useState } from "react";
-import { APP_NAME, OFFER_TABLE, LISTING_TABLE, ACTIVE_CHAIN } from "../constants";
+import { useEffect, useState } from "react";
+import { APP_NAME, OFFER_TABLE, LISTING_TABLE, ACTIVE_CHAIN, BLOCKREACH_ADDRESS } from "../constants";
 import { deployContract } from "../util/profileContract";
 import { useEthersSigner } from "../hooks/useEthersSigner";
 import { postGenerateDid, postGenerateVC } from "../util/api";
+import { getExplorerUrl, isAdminAddress } from "../util";
+import { useRouter } from "next/navigation";
+import { useAccount } from "wagmi";
 
 export default function Admin() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState()
     const [handle, setHandle] = useState()
     const [holderDid, setHolderDid] = useState()
+    const router = useRouter()
     const [result, setResult] = useState({})
+
+    const { address } = useAccount();
+
+    useEffect(() => {
+        // push to home if not admin
+        if (!isAdminAddress(address)) {
+            router.push('/')
+        }
+    }, [address])
 
     const updateResult = (key, value) => {
         setResult({ ...result, [key]: value })
@@ -45,17 +58,8 @@ export default function Admin() {
 
     const signer = useEthersSigner({ chainId: ACTIVE_CHAIN.id })
 
-    async function deploy() {
-        setError()
-        setLoading(true)
-        try {
-            const res = await deployContract(signer)
-            updateResult('contract', res)
-        } catch (e) {
-            console.error('deploying master contract', e)
-            setError(e.message)
-        }
-        setLoading(false)
+    if (!address) {
+        return
     }
 
     return <div className="admin-page">
@@ -66,16 +70,25 @@ export default function Admin() {
         <Divider />
 
         <Card title='1. Deploy master contract'>
-            <p>
-                This will deploy the master contract for {APP_NAME}.
+            {BLOCKREACH_ADDRESS && <p>
+                Contract detected: {BLOCKREACH_ADDRESS}<br/>
+                View contract <a href={getExplorerUrl(BLOCKREACH_ADDRESS)} target="_blank">here</a>.
+
             </p>
-            <Button type='primary' disabled={loading} loading={loading} onClick={deploy}>Deploy</Button>
+            }
+
+            {!BLOCKREACH_ADDRESS && <p>
+                This will deploy the master contract for {APP_NAME}.<br />
+                Follow guide <a href="https://github.com/cbonoz/identity23/blob/master/contracts/README.md" target="_blank">here</a> to deploy master contract.
+                Update contract address in `.env` and rebuild project.
+            </p>}
+            {/* <Button type='primary' disabled={loading} loading={loading} onClick={deploy}>Deploy</Button>
 
             {result.contract && <div>
                 <Divider />
                 <p>Result</p>
                 <pre>{JSON.stringify(result.contract, null, 2)}</pre>
-            </div>}
+            </div>} */}
         </Card>
 
         <br />
@@ -139,6 +152,7 @@ export default function Admin() {
                 wordWrap: 'break-word'
             }}>
                 <Divider />
+                <span>Copy and share the below VC and VP.</span><br />
                 <p>Result</p>
                 {JSON.stringify(result.vc, null, 2)}
             </div>}

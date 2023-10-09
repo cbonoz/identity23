@@ -9,25 +9,19 @@ import { Button, Layout, Menu } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import ConnectButton from "./ConnectButton";
 import Image from "next/image";
+import { useAccount } from "wagmi";
 
 function UiLayoutWrapper({ children }) {
 
     const pathname = usePathname()
     const isListingPage = pathname.startsWith('/profile')
+    const { address } = useAccount();
     const menuItems = []
-    if (!isListingPage) {
-        menuItems.push({
-            key: '/search',
-            label: <Link href="/search">Search</Link>,
-            href: '/search',
-        })
-        // menuItems.push(
-        //     {
-        //         key: '/create',
-        //         label: <Link href="/create">Create</Link>,
-        //         href: '/create',
-        //     })
-    }
+    menuItems.push({
+        key: '/search',
+        label: <Link href="/search">Search</Link>,
+        href: '/search',
+    })
 
     menuItems.push({
         key: '/about',
@@ -36,7 +30,7 @@ function UiLayoutWrapper({ children }) {
     })
 
 
-    const isAdmin = true;
+    const isAdmin = isAdminAddress(address)
 
     if (isAdmin) {
         menuItems.push({
