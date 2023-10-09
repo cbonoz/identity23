@@ -16,6 +16,7 @@ import {
     Result,
     Statistic,
     Tooltip,
+    Empty,
 } from 'antd';
 import Image from 'next/image'
 import { ACTIVE_CHAIN, APP_NAME, EXAMPLE_OFFERS, STAT_KEYS } from '../constants';
@@ -277,6 +278,14 @@ const ListingDetail = ({ listingId, provider }) => {
                         <br />
                         <br />
                         <h1>Recent Activity</h1>
+                        {isEmpty(publications) && <Empty
+                            image={Empty.PRESENTED_IMAGE_SIMPLE}
+                            description={
+                                <span>
+                                    No recent web activity found
+                                </span>
+                            }
+                        />}
                         {publications.map((p) => {
                             const { createdAt, metadata, appId } = p
                             if (!metadata) {
@@ -303,13 +312,18 @@ const ListingDetail = ({ listingId, provider }) => {
                 confirmLoading={loading || inquireLoading}
                 onCancel={() => setModalConfig({})}
             >
-                <h3>You can send messages and payments to verified accounts.</h3>
                 <br />
-                <p>Message / Memo</p>
+                <h4 className='success-text'>You can send messages and payments to verified accounts.</h4>
+                <br />
+                <p className='bold'>Message / Memo</p>
                 <TextArea placeholder="Enter message"
+                rows={3}
+                    placeholder={`Hey ${handle}, interested in exploring a potential collaboration. Contact me at...`}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                 />
+                <br/>
+                <br/>
 
                 <Checkbox
                     checked={hideMessage}
@@ -320,7 +334,7 @@ const ListingDetail = ({ listingId, provider }) => {
                 </span>
                 {modalConfig.type === 'payment' && <div>
                     <br />
-                    <p>[Optional] Send amount with message</p>
+                    <p className='bold'>[Optional] Send amount with message</p>
                     <Input
                         type="number"
                         placeholder={`Enter amount (${ACTIVE_CHAIN.nativeCurrency.symbol}) to send`}
@@ -346,7 +360,7 @@ const ListingDetail = ({ listingId, provider }) => {
                     To claim this account, enter a valid Verifiable Presentation (VP) associated with this account. To get one, a {APP_NAME} admin can generate a credential for you.
                 </p>
                 <br />
-                <TextArea placeholder="Enter VP" value={presentation} onChange={(e) => setPresentation(e.target.value)} />
+                <TextArea rows={5} placeholder="Enter VP" value={presentation} onChange={(e) => setPresentation(e.target.value)} />
 
             </Modal>
 

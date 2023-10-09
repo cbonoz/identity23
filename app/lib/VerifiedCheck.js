@@ -7,8 +7,8 @@ const Verified = ({ verified }) => {
 
     return <span>
         {verified ?
-            <span className='success-text'><CheckCircleOutlined /> Account Verified</span> : null}
-            {/* <span className='error-text'><CloseCircleOutlined /> Account Unverified</span>} */}
+            <span className='success-text'><CheckCircleOutlined /> Account Verified</span> : 
+            <span className='error-text'><CloseCircleOutlined /> Account Unverified</span>}
     </span>
 
 
