@@ -226,7 +226,7 @@ const ListingDetail = ({ listingId, provider }) => {
                                     {/* <Image src="/verified.svg" width={20} height={20} alt="verified" /> */}
                                     This account is verified by {APP_NAME}&nbsp;
                                     <Tooltip className='pointer' title="Verified accounts have been provided a secure identity credential and this page has been confirmed an official handle account by Blockreach">
-                                        <InfoCircleOutlined  />
+                                        <InfoCircleOutlined />
                                     </Tooltip>
                                 </span> : <span></span>}
                             </p>
@@ -316,14 +316,14 @@ const ListingDetail = ({ listingId, provider }) => {
                 <h4 className='success-text'>You can send messages and payments to verified accounts.</h4>
                 <br />
                 <p className='bold'>Message / Memo</p>
-                <TextArea placeholder="Enter message"
-                rows={3}
+                <TextArea
+                    rows={3}
                     placeholder={`Hey ${handle}, interested in exploring a potential collaboration. Contact me at...`}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                 />
-                <br/>
-                <br/>
+                <br />
+                <br />
 
                 <Checkbox
                     checked={hideMessage}
