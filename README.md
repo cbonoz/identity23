@@ -7,9 +7,8 @@
 Blockreach
 ---
 
-A modern Yellowpages for verified web3 individual and business profiles.
+A modern Yellowpages for verified web3 individual and business profiles secured by Onyx and Zksync smart contracts.
 
-Blockreach is a contemporary platform akin to Yellowpages amd tailored for verified web3 individuals and businesses. It serves as a bridge for secure B2B communication, ensuring that both parties can be confident they are contacting an authorized source. This assurance is achieved through Blockreach-issued verifiable credentials (VCs) and decentralized identifiers.
 
 Built for the <a href="https://www.encode.club/digital-identity-hackathon" target="_blank">Encode digital identity hackathon 2023</a> in the FInance & Identity intersection category with B2B payments.
 
@@ -21,11 +20,9 @@ Demo Video:
 
 Accounts have an additional layer of security through Blockreach-issued DIDs and VCs for each verified partner on the ap.
 
-Salespeople and partners are constantly looking for ways to get in contact with a business or make themselves known. Blockreach addresses this need by enabling businesses to create their own secure contact pages, facilitating interactions via smart contracts managed through the Blockreach app. Furthermore, Blockreach enhances security by assigning Decentralized Identifiers (DIDs) and VCs to verified partners.
+Online partners and potential clients are constantly looking for ways to get in contact with a business or make themselves known. Blockreach addresses this need by enabling businesses to create their own secure contact pages, facilitating interactions via smart contracts managed through the Blockreach app. Furthermore, Blockreach enhances security by assigning Decentralized Identifiers (DIDs) and VCs to verified partners.
 
-With blockreach, your business can create a free (or paid) secured contact page where folks can interest with a business provisioned smart contract all managed by the blockreach app. Going after the Finance & Identity Intersection category 
-
-Blockreach enables secure B2B communication where both parties are known to be contacting an authorized source (and not an impersonator) by using a Blockreach issued verifiable credential (VC).
+Blockreach serves as a bridge for secure B2B communication, ensuring that both parties can be confident they are contacting an authorized source. This assurance is achieved through Blockreach-issued verifiable credentials (VCs) and decentralized identifiers. Going after the Finance & Identity Intersection category.
 
 
 ### Live testnet app contract
