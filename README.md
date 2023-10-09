@@ -25,15 +25,13 @@ Salespeople and partners are constantly looking for ways to get in contact with 
 
 With blockreach, your business can create a free (or paid) secured contact page where folks can interest with a business provisioned smart contract all managed by the blockreach app. Going after the Finance & Identity Intersection category 
 
-## What it does
-
 Blockreach enables secure B2B communication where both parties are known to be contacting an authorized source (and not an impersonator) by using a Blockreach issued verifiable credential (VC).
 
 
-### Existing app contract
+### Live testnet app contract
 https://goerli.explorer.zksync.io/address/0xcA5ce6dAe1156E7e222cD4c6BE35F6D343b11886
 
-This contract is referenced from the hosted testnet app linked above.
+This contract is interacted with from the hosted testnet app linked above.
 
 
 ## Running the project (from scratch)
@@ -71,9 +69,8 @@ Blockreach pulls information from LENS to create a verified profile page for the
 
 ## Challenges we ran into:
 
-Blockchain Integration Complexity: Integrating blockchain technology, especially ZkSync, presented several challenges. Ensuring seamless interactions with minimal fees and maintaining the security of smart contracts required careful consideration and expertise.
 
-Verifiable Credential Issuance: Developing a robust system for issuing and managing verifiable credentials while maintaining security was a significant challenge. Ensuring that only legitimate businesses and individuals requires a separate portal and due dilligence process managed with Onyx.
+Verifiable Credential Issuance: It's critical that only legitimate businesses and individuals can register under a verified handle - this prompted creating a separate admin/issuer portal and due dilligence process managed with Onyx server side in order to prevent illegal claiming of profiles. The issued handle is embedded in the VC metadata and is cross checked and time of account claiming.
 
 User Authentication/Verification: Implementing secure user authentication processes, especially for admin functions, required a high level of attention to detail to prevent unauthorized access.
 
@@ -81,17 +78,17 @@ Hackathon Time Constraints: As a prototype developed for a hackathon, there were
 
 ## Accomplishments that we're proud of:
 
-Verifiable Credentials Implementation: Successfully implementing a system for issuing verifiable credentials that enhances the trustworthiness of interactions on the platform was a significant achievement.
+* Onyx Verifiable Credentials Implementation: Successfully implementing a system for issuing verifiable credentials that enhances the trustworthiness of interactions on the platform was a significant achievement.
 
-Zero-Fee Outreach: Successfully managed deployment and contract interactions on L2 testnet through ZkSync, enabling users to interact with businesses without incurring excessive fees, was a notable accomplishment.
+* Successfully managed deployment and contract interactions on L2 testnet through ZkSync, enabling users to interact with businesses without incurring excessive fees, was a notable accomplishment.
 
-LENS Integration: Integrating with LENS to automatically populate business profile information and social history reduced the burden on businesses and improved user experience.
+* LENS Integration: Integrating with LENS to automatically populate business profile information and social history reduced the burden on businesses and improved user experience.
 
-Admin Functions: Creating an admin interface that allows for efficient verification of new business pages and the issuance of verifiable credentials demonstrated the platform's robustness.
+* Admin Functions: Creating an admin interface that allows for efficient verification of new business pages and the issuance of verifiable credentials demonstrated the platform's robustness.
 
 ## What we learned:
 
-Blockchain Expertise: The project deepened our understanding of blockchain technology, particularly when it comes to implementing secure and efficient smart contracts.
+Blockchain Integration Complexity: Bridging transactions to L2 and ensuring seamless interactions with minimal fees and maintaining the security of smart contracts required careful consideration and expertise. Setting up Zksync required installing new toolkits and gaining additional familiarity with L2 networks and paymasters.
 
 Identity Management: We gained valuable insights into identity management in the context of web3, particularly the importance of verifiable credentials and decentralized identifiers.
 
