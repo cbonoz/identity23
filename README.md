@@ -110,7 +110,6 @@ This project is currently deployed with vercel.
 ![Alt text](img/vercel.png)
 
 
-
 ### Screenshots
 
 These screenhots show different phases of the Blockreach application including a snippet of the primary contract, provisioning dids for users, and submitting inquiries for a verified account.
@@ -119,6 +118,10 @@ These screenhots show different phases of the Blockreach application including a
 ![Alt text](img/vc.png) ![Alt text](img/deploy.png)
 
 ## Potential future work
+* Enhanced Security Measures: Implement advanced security features, such as multi-factor authentication and additional encryption layers, to fortify user data and interactions.
+* Mainnet Deployment: Transition from the hackathon prototype to a fully functional and secure mainnet-ready platform for broader adoption.
+* Integration with more identity and blockchain sources: Extend compatibility to multiple blockchains to provide users with options and flexibility when conducting verified transactions.
+* Community Governance: Establish a governance model that empowers platform users to influence decision-making and ensure long-term sustainability.
 
 
 <!-- https://github.com/andrewszucs/onyx-hackathon-zktoro/blob/896ccf4b72fffba305d9e263b7fcd243aefd5ae2/src/app/api/vc/route.ts -->
