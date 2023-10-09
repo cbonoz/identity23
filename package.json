@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy": "surge out/ blockreach.surge.sh"
+    "lint": "next lint"
   },
   "dependencies": {
     "@ant-design/compatible": "^5.1.2",

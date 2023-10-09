@@ -29,10 +29,6 @@ export default function About() {
             </p>
 
             <p>Note this is a hackathon prototype and would require additional work to be mainnet ready. By uploading data you agree that this service is used as-is and that data may be compromised or shared outside the platform.</p>
-            <p>
-                Follow the guide here to unpack your purchased content.
-                https://web3.storage/docs/how-tos/work-with-car-files/
-            </p>
 
             <p>
                 {/* Create listing */}

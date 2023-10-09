@@ -8,9 +8,13 @@ const provider = new Provider("https://testnet.era.zksync.dev");
 // An example of a deploy script that will deploy and call a simple contract.
 export default async function (hre: HardhatRuntimeEnvironment) {
   console.log(`Running deploy script`);
+  const walletPrivateKey = process.env.TEST_WALLET_KEY;
+  if (walletPrivateKey === undefined) {
+    throw new Error("Please set TEST_WALLET_KEY environment variable");
+  }
 
   // Initialize the wallet.
-  const wallet = new Wallet("e3b504276c42e5eb181751c4e16de54a054ec64661b766fab2d6b16ae9248a14");
+  const wallet = new Wallet(walletPrivateKey);
 
   // Create deployer object and load the artifact of the contract we want to deploy.
   const deployer = new Deployer(hre, wallet);
