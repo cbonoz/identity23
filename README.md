@@ -9,12 +9,11 @@ Blockreach
 
 A modern Yellowpages for verified web3 individual and business profiles secured by the Onyx SSI sdk and Zksync smart contracts.
 
-
 Built for the <a href="https://www.encode.club/digital-identity-hackathon" target="_blank">Encode digital identity hackathon 2023</a> in the FInance & Identity intersection category with B2B payments.
 
-Live Demo (testnet, must be connected to Zksync Era): blockreach.vercel.com
+Live Demo (testnet, must be connected to Zksync Era): https://blockreach.vercel.app
 
-Demo Video: 
+Demo Video: https://youtu.be/cDBWfQlIDIg
 
 ### Inspiration
 
@@ -30,6 +29,8 @@ https://goerli.explorer.zksync.io/address/0xcA5ce6dAe1156E7e222cD4c6BE35F6D343b1
 
 This contract is interacted with from the hosted testnet app linked above.
 
+### Example profile with history
+https://blockreach.vercel.app/profile/johndoe.lens
 
 ## Running the project (from scratch)
 
