@@ -31,7 +31,7 @@ export const getProfile = async (signer, handle) => {
     return result;
 }
 
-export const sendInquiry = async (signer, handle, amountEth) => {
+export const sendInquiry = async (signer, handle, message, amountEth) => {
     const contract = new Contract(
         BLOCKREACH_ADDRESS,
         REACH_CONTRACT.abi,
@@ -39,9 +39,12 @@ export const sendInquiry = async (signer, handle, amountEth) => {
     );
     // call with args
     // Convert value to bignumber wei for zksync
+    if (!amountEth) {
+        amountEth = 0
+    }
     const value = ethers.utils.parseEther(amountEth.toString()).toString();
     console.log('sending inquiry for', handle, value)
-    const result = await contract.sendInquiry(handle, {
+    const result = await contract.sendInquiry(handle, message, {
         value
     });
     return result;

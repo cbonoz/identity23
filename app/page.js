@@ -10,8 +10,8 @@ import { useRouter } from 'next/navigation';
 
 // TODO: change
 const CHECKLIST_ITEMS = [
-  "Set up a verified business landing page",
-  `Add your business to the ${APP_NAME} directory`,
+  "Set up a searchable business or profile landing page using your lens handle",
+  `Send and request verified peer to peer requests and invoices`,
   "No vendor accounts or agreements required",
 ];
 

@@ -14,3 +14,5 @@ export const BLOCKREACH_ADDRESS = process.env.NEXT_PUBLIC_BLOCKREACH_ADDRESS
 export const IPFS_BASE_URL = 'https://ipfs.filebase.io/ipfs'
 
 export const ADMIN_ADDRESS = process.env.NEXT_PUBLIC_ADMIN_ADDRESS
+
+export const PRIMARY_COLOR = '#674ea7'

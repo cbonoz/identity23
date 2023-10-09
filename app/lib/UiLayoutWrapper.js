@@ -3,9 +3,9 @@
 import { usePathname } from "next/navigation"
 import Link from "next/link";
 import { abbreviate, isAdminAddress } from "../util";
-import { ACTIVE_CHAIN, APP_NAME } from "../constants";
+import { ACTIVE_CHAIN, APP_NAME, PRIMARY_COLOR } from "../constants";
 import StyledComponentsRegistry from "./AntdRegistry";
-import { Button, Layout, Menu } from "antd";
+import { Button, ConfigProvider, Layout, Menu } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import ConnectButton from "./ConnectButton";
 import Image from "next/image";
@@ -41,8 +41,21 @@ function UiLayoutWrapper({ children }) {
     }
 
     return (
+        <ConfigProvider
+        theme={{
+          components: {
+            Button: {
+              colorPrimary: PRIMARY_COLOR,
+              algorithm: true, // Enable algorithm
+            },
+            Input: {
+              colorPrimary: PRIMARY_COLOR,
+              algorithm: true, // Enable algorithm
+            }
+          },
+        }}
+      >
         <StyledComponentsRegistry>
-
             <Layout>
                 <Header style={{ background: '#fff', display: 'flex' }}>
                     <Image src="/logo.png" alt="Blockreach Logo"
@@ -83,6 +96,7 @@ function UiLayoutWrapper({ children }) {
             </Layout>
 
         </StyledComponentsRegistry>
+        </ConfigProvider>
     )
 }
 

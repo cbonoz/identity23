@@ -30,6 +30,7 @@ import { useAccount } from 'wagmi';
 import { claimProfile, getProfile, sendInquiry } from '../util/profileContract';
 import { useEthersSigner } from '../hooks/useEthersSigner';
 import ConnectButton from './ConnectButton';
+import Checkbox from 'antd/es/checkbox/Checkbox';
 
 const ListingDetail = ({ listingId, provider }) => {
     const [loading, setLoading] = useState(true)
@@ -41,6 +42,7 @@ const ListingDetail = ({ listingId, provider }) => {
     const [profile, setProfile] = useState()
     const [amount, setAmount] = useState()
     const [message, setMessage] = useState()
+    const [hideMessage, setHideMessage] = useState(false)
     const [result, setResult] = useState()
     // get account from web3
     const { address } = useAccount()
@@ -65,6 +67,8 @@ const ListingDetail = ({ listingId, provider }) => {
                 verified: true,
                 message: "It may take a few moments for the verification status on the page to update"
             })
+            // Greedy set.
+            setProfile({ ...profile, verified: true })
         } catch (e) {
             console.error('error verifying', e)
             setError(e.message)
@@ -106,10 +110,11 @@ const ListingDetail = ({ listingId, provider }) => {
     async function inquire() {
         setError()
         setInquireLoading(true)
+        const filteredMessage = hideMessage ? '(hidden)' : message
         try {
-            const res = await sendInquiry(signer, listingId, amount)
+            const res = await sendInquiry(signer, listingId, filteredMessage, amount)
             console.log('sent inquiry', res)
-            setResult({ hash: res.hash })
+            setResult({ hash: res.hash, status: 'Inquiry sent' })
         } catch (e) {
             console.error('error sending inquiry', e)
             setError(e.message)
@@ -117,8 +122,6 @@ const ListingDetail = ({ listingId, provider }) => {
             setModalConfig({})
             setInquireLoading(false)
         }
-
-
     }
 
     useEffect(() => {
@@ -185,7 +188,7 @@ const ListingDetail = ({ listingId, provider }) => {
                 <Row gutter={16}>
                     <Col span={8}>
                         <Image src={profileImage}
-                            alt="profile picture"
+                            alt={`${name} profile picture`}
                             layout='fill'
                             objectFit='contain'
                         />
@@ -307,6 +310,14 @@ const ListingDetail = ({ listingId, provider }) => {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                 />
+
+                <Checkbox
+                    checked={hideMessage}
+                    onChange={(e) => setHideMessage(e.target.checked)}
+                />
+                <span>
+                    Hide message on chain
+                </span>
                 {modalConfig.type === 'payment' && <div>
                     <br />
                     <p>[Optional] Send amount with message</p>

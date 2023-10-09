@@ -2,11 +2,11 @@
 
 import { useContext, useEffect, useState } from 'react'
 import Search from 'antd/es/input/Search'
-import ListingCard from '../lib/ListingCard'
 import { Card, Divider, List, Pagination, Spin } from 'antd'
 import { formatListing, isEmpty } from '../util'
 import { searchProfiles } from '../util/lens'
 import { useRouter } from 'next/navigation'
+import { APP_NAME } from '../constants'
 
 const gridStyle = {
   width: '25%',
@@ -18,7 +18,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const filteredItems = data; // isEmpty(searchValue) ? data : filteredData;
@@ -50,7 +49,7 @@ export default function Home() {
   return (
     <div className='container'>
       <div className='centered'>
-        <h1>Search profiles</h1>
+        <h1>Search {APP_NAME} profiles</h1>
         <br />
         <Search
           className='search-input'

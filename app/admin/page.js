@@ -32,6 +32,7 @@ export default function Admin() {
     }
 
     async function did() {
+        setLoading(true)
         try {
             const res = await postGenerateDid(handle)
             console.log('generated', res)
@@ -39,11 +40,14 @@ export default function Admin() {
         } catch (e) {
             console.error('generating did', e)
             // setError(e.message)
+        } finally {
+            setLoading(false)
         }
 
     }
 
     async function generate() {
+        setLoading(true)
         try {
             const res = await postGenerateVC(handle, holderDid)
             console.log('generated', res)
@@ -51,6 +55,8 @@ export default function Admin() {
         } catch (e) {
             console.error('generating vc', e)
             // setError(e.message)
+        } finally {
+            setLoading(false)
         }
         // alert('TODO: generate verified credential for handle')
 

@@ -36,6 +36,7 @@ Master smart contract for the Blockreach application creates custom urls.
 Specify the following environment variables
 <pre>
 NEXT_PUBLIC_BLOCKREACH_CONTRACT= // address of new contract or use existing.
+NEXT_PUBLIC_ADMIN_ADDRESS= // address of new contract or use existing.
 </pre>
 
 ### Existing contract
