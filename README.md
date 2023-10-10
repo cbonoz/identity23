@@ -54,7 +54,7 @@ Any repeated starts can be done with `yarn dev` once all variables set.
 
 Blockreach pulls information from LENS to create a verified profile page for the business with contact information using Onyx and LENS. Zero/low fee interactions with the verified business account interactions facilitated with a paymaster ZkSync that refunds gas fees.
 
-* <b>JPM Onyx sdk</b>: Social Identity Integration and Finance and Identity integration. The Onyx SDK is used for two key pieces. Most of the behavior of the app is server side, and contained in the `/api` provision and verify route folders.
+* <b>JPM Onyx sdk</b>: Social Identity Integration and Finance and Identity integration. The Onyx SDK is used for two key pieces. Most of the behavior of the app is server side, and contained in the `/api` provision and verify route folders (and in onyx.js within the github project)
 
 1. Blockreach app has an admin issuer/verifier account that is run server side and used to validate new business page creations.
 2. These server verifies all new page requests and generates unique DID and VC/VP keys that are saveable by each page owner.
