@@ -17,9 +17,9 @@ Demo Video: https://youtu.be/cDBWfQlIDIg
 
 ### Inspiration
 
-Accounts have an additional layer of security through Blockreach-issued DIDs and VCs for each verified partner on the ap.
-
 Online partners and potential clients are constantly looking for ways to get in contact with a business or make themselves known. Blockreach addresses this need by enabling businesses to create their own secure contact pages, facilitating interactions via smart contracts managed through the Blockreach app. Furthermore, Blockreach enhances security by assigning Decentralized Identifiers (DIDs) and VCs to verified partners.
+
+Accounts have an additional layer of security through Blockreach-issued DIDs and VCs for each verified partner on the app.
 
 Blockreach serves as a bridge for secure B2B communication, ensuring that both parties can be confident they are contacting an authorized source. This assurance is achieved through Blockreach-issued verifiable credentials (VCs) and decentralized identifiers. Going after the Finance & Identity Intersection category.
 
@@ -61,7 +61,7 @@ Blockreach pulls information from LENS to create a verified profile page for the
 
 * <b>Lens Protocol</b>: At its core, Blockreach works off Lens profiles to pull business pre-existing profile and reputation information (with recent activity) automatically. Using Lens enables landing pages without recreating information or social reputation from scratch.
 
-* <b>ZkSync Paymasters and L2 Contracts</b>: Manages ontract transactions and auditable trail for all activities on the app. A master smart contract is deployethat manages metadata and the verifiable statuses for each business or entity on the platform. Payments and peer to peer outreach are also mediated through this contract between visitors to the app and the profile page account owners.
+* <b>ZkSync Paymasters and L2 Contracts</b>: Manages contract peer to peer transactions and auditable trail for all activities on the app. A master smart contract is deployed that manages metadata and the verifiable statuses for each business or entity on the platform. Payments and peer to peer outreach are also mediated through this contract between visitors to the app and the profile page account owners.
 
  <p>Note this project is a hackathon prototype and would require additional work to be mainnet ready.</p>
 
@@ -108,10 +108,14 @@ These screenhots show different phases of the Blockreach application including a
 ![Alt text](img/vc.png) ![Alt text](img/deploy.png)
 
 ## Potential future work
+
+Blockreach is an open source project and is deployed on testnet. To be mainnet ready, some final security-related changes would need to be done around contract verification and the hosted Onyx backend. Some other potential items include:
+
 * Enhanced Security Measures: Implement advanced security features, such as multi-factor authentication and additional encryption layers, to fortify user data and interactions.
 * Mainnet Deployment: Transition from the hackathon prototype to a fully functional and secure mainnet-ready platform for broader adoption.
 * Integration with more identity and blockchain sources: Extend compatibility to multiple blockchains to provide users with options and flexibility when conducting verified transactions.
-* Community Governance: Establish a governance model that empowers platform users to influence decision-making and ensure long-term sustainability.
+* Community Governance: Establish a governance model that empowers platform users to influence decision-making and ensure long-term sustainability between parties on the app.
+* Incentives for use and reporting: Make it easy as possible to start generating leads on the application and tracking the performance of using a Blockreach page vs. traditional checks/fiat payments and public aggregator sites like Yellowpages.
 
 
 <!-- https://github.com/andrewszucs/onyx-hackathon-zktoro/blob/896ccf4b72fffba305d9e263b7fcd243aefd5ae2/src/app/api/vc/route.ts -->
