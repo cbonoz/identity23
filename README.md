@@ -15,6 +15,8 @@ Live Demo (testnet, must be connected to Zksync Era): https://blockreach.vercel.
 
 Demo Video: https://youtu.be/cDBWfQlIDIg
 
+Pitch deck: https://docs.google.com/presentation/d/1035CkshprHGTxbnC34WvWsWg7f7pEGAQudXiQFJ77x0/edit?usp=sharing
+
 ### Inspiration
 
 Online partners and potential clients are constantly looking for ways to get in contact with a business or make themselves known. Blockreach addresses this need by enabling businesses to create their own secure contact pages, facilitating interactions via smart contracts managed through the Blockreach app. Furthermore, Blockreach enhances security by assigning Decentralized Identifiers (DIDs) and VCs to verified partners.
